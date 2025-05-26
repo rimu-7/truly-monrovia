@@ -41,14 +41,14 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/home"
+          to="/"
           className={({ isActive }) =>
             isActive
               ? `${baseLinkClasses} ${activeLinkClasses}`
               : baseLinkClasses
           }
         >
-          home
+          Home
         </NavLink>
       </li>
       <li>

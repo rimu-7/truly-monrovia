@@ -80,15 +80,25 @@
 // };
 
 // export default HomePage;
+import { ArrowRight } from "lucide-react";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
     <div className="min-h-screen flex justify-center items-center">
-      <div className="max-w-7xl flex justify-center items-center  w-full mx-auto backdrop-blur-md bg-gray-800 border border-[#FFD700] rounded-2xl shadow-2xl p-10 transition-all duration-300">
+      <div className="max-w-7xl flex flex-col gap-5 justify-center items-center  w-full mx-auto backdrop-blur-md bg-gray-800 border border-[#FFD700] rounded-2xl shadow-2xl p-10 transition-all duration-300">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 drop-shadow-lg">
           Welcome to Truly Monrovia
         </h1>
+        <Link
+          to={"/submitbseen"}
+          className="bg-gradient-to-r cursor-pointer from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-black font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-yellow-500/50 transition-transform transform  duration-300"
+        >
+          <div className="flex justify-center items-center">
+            <p className="">Go to Event Page</p> <ArrowRight size={25} />
+          </div>
+        </Link>
       </div>
     </div>
   );
