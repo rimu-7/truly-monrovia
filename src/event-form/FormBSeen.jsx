@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { supabase } from "../../supabase/supabase_client";
 import { toast } from "react-toastify";
+import { Send } from "lucide-react";
+import { TbListDetails } from "react-icons/tb";
 
 const EventForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,8 +16,6 @@ const EventForm = () => {
     link_to_project: "",
     link_to_profile: "",
   });
-
-
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -70,6 +70,8 @@ const EventForm = () => {
       setIsSubmitting(false);
     }
   };
+  const cssproperty_for_input =
+    "p-3 rounded-md bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out text-white";
 
   return (
     <div className="flex flex-col justify-center mx-auto items-center py-20">
@@ -78,8 +80,9 @@ const EventForm = () => {
         onSubmit={handleSubmit}
         className="w-full max-w-7xl bg-gray-800 text-gray-300 rounded-lg shadow-2xl  p-8 md:p-12 flex flex-col gap-6"
       >
-        <h1 className="text-3xl sm:text-4xl text-center text-yellow-300 font-bold mb-4">
-          Sign Up for Event
+        <h1 className="text-3xl flex items-center justify-center capitalize sm:text-4xl text-yellow-300 font-bold mb-4">
+          <span className="mr-2">submit your details</span>
+          <TbListDetails />
         </h1>
 
         {/* Input fields */}
@@ -88,7 +91,7 @@ const EventForm = () => {
             Name
           </label>
           <input
-            className="p-3 rounded-md bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out text-white"
+            className={cssproperty_for_input}
             type="text"
             id="name"
             value={formData.name}
@@ -103,7 +106,7 @@ const EventForm = () => {
             Contact
           </label>
           <input
-            className="p-3 rounded-md bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out text-white"
+            className={cssproperty_for_input}
             type="text"
             id="contact"
             value={formData.contact}
@@ -118,7 +121,7 @@ const EventForm = () => {
             Category
           </label>
           <select
-            className="p-3 rounded-md bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out text-white"
+            className={cssproperty_for_input}
             id="category"
             value={formData.category}
             onChange={handleChange}
@@ -143,7 +146,7 @@ const EventForm = () => {
             Address
           </label>
           <input
-            className="p-3 rounded-md bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out text-white"
+            className={cssproperty_for_input}
             type="text"
             id="address"
             value={formData.address}
@@ -163,7 +166,7 @@ const EventForm = () => {
             value={formData.creative_name}
             onChange={handleChange}
             placeholder="Your creative/stage name"
-            className="p-3 rounded-md bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out text-white"
+            className={cssproperty_for_input}
           />
         </div>
 
@@ -172,7 +175,7 @@ const EventForm = () => {
             Social Media Handle
           </label>
           <input
-            className="p-3 rounded-md bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out text-white"
+            className={cssproperty_for_input}
             type="text"
             id="social_media"
             value={formData.social_media}
@@ -185,7 +188,7 @@ const EventForm = () => {
             Link to project
           </label>
           <input
-            className="p-3 rounded-md bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out text-white"
+            className={cssproperty_for_input}
             type="text"
             id="link_to_project"
             value={formData.link_to_project}
@@ -198,7 +201,7 @@ const EventForm = () => {
             link to profile
           </label>
           <input
-            className="p-3 rounded-md bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out text-white"
+            className={cssproperty_for_input}
             type="text"
             id="link_to_profile"
             value={formData.link_to_profile}
@@ -209,11 +212,20 @@ const EventForm = () => {
 
         {/* Submit Button */}
         <button
-          className="w-full bg-gradient-to-r from-yellow-300 to-yellow-400 hover:from-green-400 hover:to-green-500 text-black font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-yellow-400/50 cursor-pointer transition-transform transform hover:scale-102 duration-300"
+          className="w-full bg-[#FFD700] hover:bg-yellow-400 text-xl   text-black font-semibold px-8 py-3 rounded-md shadow-lg  cursor-pointer transition-transform transform duration-300"
           type="submit"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Submitting..." : "Register Now!"}
+          <button>
+            {isSubmitting ? (
+              "Submitting..."
+            ) : (
+              <div className="flex justify-center items-center cursor-pointer">
+                <span style={{ marginRight: "4px" }}>Submit </span>
+                <Send />
+              </div>
+            )}
+          </button>
         </button>
       </form>
       <div className=""></div>

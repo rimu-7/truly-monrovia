@@ -124,40 +124,26 @@ const SubmitBSeen_Data = () => {
                     key={event.id}
                     className={`${colorClass} hover:bg-[#212121] duration-300 transition-colors ease-in-out`}
                   >
-                    <td className="px-2 py-4 text-gray-100">{event.id}</td>
-                    <td className="px-2 py-4 text-gray-100">{event.name}</td>
-                    <td className="px-2 py-4 text-gray-100">{event.contact}</td>
-                    <td className="px-2 py-4 text-gray-100 capitalize">
+                    <td className="px-2 py-4 ">{event.id}</td>
+                    <td className="px-2 py-4 ">{event.name}</td>
+                    <td className="px-2 py-4 ">{event.contact}</td>
+                    <td className="px-2 py-4  capitalize">
                       {event.category}
                     </td>
-                    <td className="px-2 py-4 text-gray-100">{event.address}</td>
-                    <td className="px-2 py-4 text-gray-100">
+                    <td className="px-2 py-4 ">{event.address}</td>
+                    <td className="px-2 py-4 ">
                       {event.creative_name}
                     </td>
-                    <td className="px-2 py-4 text-gray-100">
+                    <td className="px-2 py-4 ">
                       {event.social_media}
                     </td>
-                    <td className="px-2 py-4 text-gray-100">
-                      <a
-                        href={event.link_to_project}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-yellow-300 hover:underline"
-                      >
-                        {event.link_to_project}
-                      </a>
+                    <td className="px-2 py-4 ">
+                      {event.link_to_project}
                     </td>
-                    <td className="px-2 py-4 text-gray-100">
-                      <a
-                        href={event.link_to_profile}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-yellow-300 hover:underline"
-                      >
-                        {event.link_to_profile}
-                      </a>
+                    <td className="px-2 py-4 ">
+                      {event.link_to_profile}
                     </td>
-                    <td className="px-2 py-4 text-gray-100">
+                    <td className="px-2 py-4 ">
                       {new Date(event.created_at).toLocaleString()}
                     </td>
                   </tr>

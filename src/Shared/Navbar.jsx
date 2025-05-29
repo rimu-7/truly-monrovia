@@ -143,7 +143,7 @@ const Navbar = () => {
       <div className="container w-full mx-auto flex justify-between items-center">
         <Link
           to="/"
-          className="text-2xl font-bold border-2 rounded text-yellow-300 hover:text-yellow-400 transition-colors duration-300"
+          className="text-2xl font-bold border-2 rounded-md text-yellow-300 hover:text-yellow-400 transition-colors duration-300"
         >
           <img
             className="w-40 h-16 duration-300  hover:scale-105"

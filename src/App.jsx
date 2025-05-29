@@ -4,6 +4,7 @@ import { ToastContainer, Zoom } from "react-toastify";
 import Navbar from "./Shared/Navbar";
 import Footer from "./Shared/Footer";
 import SubmitBSeen from "./event-form/SubmitBSeen";
+import PostView from "./pages/PostView";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const SignUpPage = lazy(() => import("./pages/SignUpPage"));
@@ -12,6 +13,7 @@ const Events = lazy(() => import("./event-form/SubmitBSeen"));
 const AdminDashboard = lazy(() => import("./components/AdminDashboard"));
 const ConfirmEmail = lazy(() => import("./pages/ConfirmEmail"));
 const ResendConfirmation = lazy(() => import("./pages/ResendConfirmation"));
+const Feature = lazy(() => import("./pages/Feature"));
 const ErrorPage = lazy(() => import("./Shared/ErrorPage"));
 
 const App = () => {
@@ -38,6 +40,8 @@ const App = () => {
             />
             <Route path="/submitbseen" element={<SubmitBSeen />} />
             <Route path="/dashboard" element={<AdminDashboard />} />
+            <Route path="/features" element={<Feature />} />
+            <Route path="/postview/:id" element={<PostView />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Suspense>
