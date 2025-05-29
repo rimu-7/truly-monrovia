@@ -9,8 +9,6 @@ const Feature = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-
-
   useEffect(() => {
     const fetchFeaturePosts = async () => {
       try {
@@ -35,9 +33,35 @@ const Feature = () => {
     fetchFeaturePosts();
   }, [navigate]);
 
+  const handleReadMore = async (postId) => {
+    try {
+      // First increment the count in the database
+      const { data: updatedPost, error } = await supabase.rpc('increment_count', {
+        post_id: postId
+      });
+      
+      if (error) throw error;
+
+      // Then update the local state to reflect the change
+      setFeatures(prevFeatures => 
+        prevFeatures.map(post => 
+          post.id === postId 
+            ? { ...post, count: (post.count || 0) + 1 } 
+            : post
+        )
+      );
+
+      // Navigate to the post view
+      navigate(`/postview/${postId}`);
+    } catch (error) {
+      console.error("Error updating count:", error);
+      toast.error("Failed to update view count");
+    }
+  };
+
   if (loading) {
     return (
-      <div className="flex justify-center items-center  min-h-screen">
+      <div className="flex justify-center items-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
       </div>
     );
@@ -45,7 +69,7 @@ const Feature = () => {
 
   if (!features || features.length === 0) {
     return (
-      <div className="flex justify-center items-center  min-h-screen">
+      <div className="flex justify-center items-center min-h-screen">
         <p className="text-gray-600 text-lg">No featured posts available</p>
       </div>
     );
@@ -54,7 +78,7 @@ const Feature = () => {
   return (
     <section className="max-w-7xl min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold  sm:text-4xl">
+        <h2 className="text-3xl font-bold sm:text-4xl">
           Featured Posts
         </h2>
         <p className="mt-4 text-xl text-gray-300">
@@ -62,7 +86,7 @@ const Feature = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {features.map((post, index) => (
           <article
             key={index}
@@ -85,6 +109,7 @@ const Feature = () => {
                     day: 'numeric'
                   })}
                 </time>
+                <span className="ml-2">• {post.count || 0} views</span>
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">
                 {post.title || "Untitled Post"}
@@ -95,7 +120,7 @@ const Feature = () => {
                   : (post.description || "No description available")}
               </p>
               <button
-                onClick={() => navigate(`/postview/${post.id}`)}
+                onClick={() => handleReadMore(post.id)}
                 className="inline-flex items-center text-yellow-300 cursor-pointer hover:text-yellow-400 font-medium"
               >
                 Read more <ArrowRight className="ml-2 h-4 w-4" />
@@ -104,14 +129,6 @@ const Feature = () => {
           </article>
         ))}
       </div>
-      {/* <div className="mt-12 text-center">
-                <button
-                    onClick={() => navigate("/blog")}
-                    className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                    View All Posts
-                </button>
-            </div> */}
     </section>
   );
 };
