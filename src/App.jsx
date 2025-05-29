@@ -14,6 +14,8 @@ const AdminDashboard = lazy(() => import("./components/AdminDashboard"));
 const ConfirmEmail = lazy(() => import("./pages/ConfirmEmail"));
 const ResendConfirmation = lazy(() => import("./pages/ResendConfirmation"));
 const Feature = lazy(() => import("./pages/Feature"));
+const Explore = lazy(() => import("./pages/Explore"));
+const ExploreView = lazy(() => import("./pages/ExploreView"));
 const ErrorPage = lazy(() => import("./Shared/ErrorPage"));
 
 const App = () => {
@@ -42,6 +44,8 @@ const App = () => {
             <Route path="/dashboard" element={<AdminDashboard />} />
             <Route path="/features" element={<Feature />} />
             <Route path="/postview/:id" element={<PostView />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/explores/:id" element={<ExploreView />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Suspense>
@@ -53,7 +57,6 @@ const App = () => {
           closeOnClick
           pauseOnHover
           draggable
-          pauseOnFocusLoss
           theme="dark"
           transition={Zoom}
         />

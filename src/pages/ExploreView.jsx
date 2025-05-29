@@ -4,7 +4,7 @@ import { supabase } from "../../supabase/supabase_client";
 import { toast } from "react-toastify";
 import { ArrowLeft, MoveLeft, MoveRight } from "lucide-react";
 
-const PostView = () => {
+const ExploreView = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
@@ -16,7 +16,7 @@ const PostView = () => {
             try {
                 setLoading(true);
                 const { data, error } = await supabase
-                    .from("feature-posts")
+                    .from("explore-posts")
                     .select("*")
                     .eq("id", id)
                     .single();
@@ -75,7 +75,7 @@ const PostView = () => {
                     className="flex items-center gap-2 text-yellow-300 hover:text-yellow-400 cursor-pointer transition-colors"
                 >
                     <ArrowLeft size={20} />
-                    <span>Back to feature</span>
+                    <span>Back to explore</span>
                 </button>
             </div>
 
@@ -149,7 +149,6 @@ const PostView = () => {
                             <span className="ml-2">{post.count || 0} views</span>
                         </div>
                         <h1 className="text-3xl sm:text-4xl font-bold mt-2 mb-4">{post.title}</h1>
-
                         <p className="text-lg ">{post.description}</p>
                     </header>
                 </div>
@@ -158,4 +157,4 @@ const PostView = () => {
     );
 };
 
-export default PostView;
+export default ExploreView;

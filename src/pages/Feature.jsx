@@ -90,7 +90,7 @@ const Feature = () => {
         {features.map((post, index) => (
           <article
             key={index}
-            className="border-2 border-yellow-300 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
+            className="border-2 border-yellow-300 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
           >
             <div className="h-48 overflow-hidden">
               <img
@@ -100,8 +100,8 @@ const Feature = () => {
                 loading="lazy"
               />
             </div>
-            <div className="p-6">
-              <div className="flex items-center text-sm text-gray-300 mb-2">
+            <div className="px-4 py-2">
+              <div className="flex justify-between items-center text-sm text-gray-300 mb-2">
                 <time dateTime={new Date(post.created_at).toISOString()}>
                   {new Date(post.created_at).toLocaleDateString('en-US', {
                     year: 'numeric',
@@ -109,12 +109,12 @@ const Feature = () => {
                     day: 'numeric'
                   })}
                 </time>
-                <span className="ml-2">• {post.count || 0} views</span>
+                <span className="ml-2">{post.count || 0} views</span>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-3">
+              <h3 className="text-xl font-semibold text-white">
                 {post.title || "Untitled Post"}
               </h3>
-              <p className="text-gray-300 mb-4 line-clamp-3">
+              <p className="text-gray-300 line-clamp-3">
                 {(post.description || "No description available").length > 70
                   ? (post.description || "No description available").substring(0, 70) + "..."
                   : (post.description || "No description available")}
@@ -123,7 +123,7 @@ const Feature = () => {
                 onClick={() => handleReadMore(post.id)}
                 className="inline-flex items-center text-yellow-300 cursor-pointer hover:text-yellow-400 font-medium"
               >
-                Read more <ArrowRight className="ml-2 h-4 w-4" />
+                Read more <ArrowRight className="ml-2 h-4 w-4 hover:scale-105" />
               </button>
             </div>
           </article>

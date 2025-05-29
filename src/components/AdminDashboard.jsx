@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import SubmitBSeen_Data from "./SbmitBSeen_Data";
 import Home from "./AdminHome";
 import FeaturePost from "./FeaturePost";
+import ExplorepostByAdmin from "./ExplorepostByAdmin";
+import FeaturePostsList from "./FeaturePostsList";
 
 const AdminDashboard = () => {
   const [activePanel, setActivePanel] = useState("Home");
@@ -25,6 +27,12 @@ const AdminDashboard = () => {
       label: "FeaturePost",
       content: () => <FeaturePost />,
     },
+    {
+      key: "ExplorepostByAdmin",
+      label: "ExplorepostByAdmin",
+      content: () => <ExplorepostByAdmin />,
+    },
+
   ];
 
   const getButtonClass = (key) =>
