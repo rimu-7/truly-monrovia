@@ -12,7 +12,7 @@ function Footer() {
     <div className="fixed-bottom border-t-2 bg-gray-900 flex justify-center p-2  text-center">
       <small className="w-full text-yellow-300">
         All Rights Reserved &copy; {year} Copyrights{" "}
-        <span style={{ fontFamily: "Abril Fatface, serif" }}><Link to="/login" className="underline">CreaqTech</Link></span> .
+        <span style={{ fontFamily: "Abril Fatface, serif" }}><Link to="/login" className="underline"><Link to={"/login"}>CreaqTech</Link></Link></span> .
         
       </small>
     </div>

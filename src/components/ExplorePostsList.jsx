@@ -93,7 +93,7 @@ const ExplorePostsList = () => {
                 .update({
                     title: editTitle,
                     description: editDescription,
-                    updated_at: new Date().toISOString(),
+                    created_at: new Date().toISOString(),
                 })
                 .eq("id", postId);
 
@@ -153,7 +153,7 @@ const ExplorePostsList = () => {
                     posts.map((post) => (
                         <div
                             key={post.id}
-                            className="bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700"
+                            className="bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-yellow-300"
                         >
                             {/* Images */}
                             <div className="h-48 overflow-hidden relative">
@@ -177,13 +177,13 @@ const ExplorePostsList = () => {
                                             type="text"
                                             value={editTitle}
                                             onChange={(e) => setEditTitle(e.target.value)}
-                                            className="w-full px-3 py-2 mb-2 bg-gray-700 border border-[#FFD700] rounded text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#FFD700]"
+                                            className="w-full px-3 py-2 mb-2 bg-gray-700  rounded text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#FFD700]"
                                         />
                                         <textarea
                                             value={editDescription}
                                             onChange={(e) => setEditDescription(e.target.value)}
                                             rows={3}
-                                            className="w-full px-3 py-2 mb-3 bg-gray-700 border border-[#FFD700] rounded text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#FFD700]"
+                                            className="w-full px-3 py-2 mb-3 bg-gray-700 rounded text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#FFD700]"
                                         />
                                     </>
                                 ) : (

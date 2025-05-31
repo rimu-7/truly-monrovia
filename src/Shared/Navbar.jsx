@@ -15,7 +15,7 @@ const Navbar = () => {
 
   const navLinks = (
     <>
-      <li>
+      {/* <li>
         <NavLink
           to="/register"
           className={({ isActive }) =>
@@ -38,7 +38,7 @@ const Navbar = () => {
         >
           SignIn
         </NavLink>
-      </li>
+      </li> */}
       <li>
         <NavLink
           to="/"
@@ -108,7 +108,7 @@ const Navbar = () => {
               : baseLinkClasses
           }
         >
-          Submit&Bseen
+          Submit & Be Seen
         </NavLink>
       </li>
       <li>

@@ -217,7 +217,7 @@ const FeaturePost = () => {
             <input
               id="title"
               rows={5}
-              className="w-full px-4 py-3 bg-gray-800 border border-[#FFD700] rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
+              className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
               placeholder="Write a title accordingly to your post..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -236,7 +236,7 @@ const FeaturePost = () => {
             <textarea
               id="description"
               rows={5}
-              className="w-full px-4 py-3 bg-gray-800 border border-[#FFD700] rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
+              className="w-full px-4 py-3 bg-gray-800  rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
               placeholder="Write a compelling description about these images..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}

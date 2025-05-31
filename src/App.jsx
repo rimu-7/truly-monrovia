@@ -5,11 +5,12 @@ import Navbar from "./Shared/Navbar";
 import Footer from "./Shared/Footer";
 import SubmitBSeen from "./event-form/SubmitBSeen";
 import PostView from "./pages/PostView";
+import Events from "./pages/Events";
+import EventView from "./pages/EventView";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const SignUpPage = lazy(() => import("./pages/SignUpPage"));
 const SignInPage = lazy(() => import("./pages/SignInPage"));
-const Events = lazy(() => import("./event-form/SubmitBSeen"));
 const AdminDashboard = lazy(() => import("./components/AdminDashboard"));
 const ConfirmEmail = lazy(() => import("./pages/ConfirmEmail"));
 const ResendConfirmation = lazy(() => import("./pages/ResendConfirmation"));
@@ -46,6 +47,10 @@ const App = () => {
             <Route path="/postview/:id" element={<PostView />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/explores/:id" element={<ExploreView />} />
+
+            <Route path="/eventview/:id" element={<EventView />} />
+            <Route path="/events" element={<Events />} />
+
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Suspense>

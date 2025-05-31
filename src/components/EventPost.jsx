@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { X, UploadCloud, Image as ImageIcon } from "lucide-react";
+import { X, UploadCloud, Image as ImageIcon, Calendar, MapPin } from "lucide-react";
 import { toast } from "react-toastify";
 import { UserAuth } from "../../supabase/AuthContext";
 import { supabase } from "../../supabase/supabase_client";
-import ExplorePostsList from "./ExplorePostsList";
+import EventList from "./EventList";
 
-const ExplorepostByAdmin = () => {
+const EventPost = () => {
   const { session } = UserAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -15,17 +15,9 @@ const ExplorepostByAdmin = () => {
   const [previews, setPreviews] = useState([]);
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("Default");
+  const [location, setLocation] = useState("");
+  const [date, setDate] = useState("");
   const [isUploading, setIsUploading] = useState(false);
-
-  const categories = [
-    { value: "music", label: "Music" },
-    { value: "fashion", label: "Fashion" },
-    { value: "arts", label: "Arts" },
-    { value: "photography", label: "Photography" },
-    { value: "others", label: "Others" },
-    { value: "Default", label: "Select" },
-  ];
 
   useEffect(() => {
     const fetchAdminId = async () => {
@@ -57,12 +49,12 @@ const ExplorepostByAdmin = () => {
   }, [session, navigate]);
 
   const handleImageChange = (e) => {
-    if (images.length >= 3) {
-      return toast.warning("Maximum 3 images allowed");
+    if (images.length >= 1) {
+      return toast.warning("Maximum 1 image allowed");
     }
 
     const files = Array.from(e.target.files);
-    const newImages = [...images, ...files].slice(0, 3);
+    const newImages = [...images, ...files].slice(0, 1);
     setImages(newImages);
 
     const newPreviews = newImages.map((file) => URL.createObjectURL(file));
@@ -118,28 +110,28 @@ const ExplorepostByAdmin = () => {
         images.map((file) => uploadToCloudinary(file))
       );
 
-      const { error } = await supabase.from("explore-posts").insert([
+      const { error } = await supabase.from("event-posts").insert([
         {
           new_id: adminId,
-          image1: imageUrls[0] || null,
-          image2: imageUrls[1] || null,
-          image3: imageUrls[2] || null,
+          image: imageUrls[0] || null,
           title,
           description,
-          category,
+          location,
+          date,
         },
       ]);
 
       if (error) throw error;
 
-      toast.success("Explore post created successfully!");
+      toast.success("Event created successfully!");
       setImages([]);
       setPreviews([]);
       setTitle("");
       setDescription("");
-      setCategory("others");
+      setLocation("");
+      setDate("");
     } catch (error) {
-      toast.error("Failed to create explore post");
+      toast.error("Failed to create event");
       console.error("Submission error:", error);
     } finally {
       setIsUploading(false);
@@ -156,24 +148,24 @@ const ExplorepostByAdmin = () => {
   }
 
   return (
-    <div className="max-w-7xl min-h-screen flex flex-col gap-10 justify-center items-center mx-auto bg-[#212121]">
-      <div className="w-full max-w-4xl p-10 rounded-2xl shadow-xl border border-gray-700">
-        <h1 className="text-4xl font-extrabold text-[#FFD700] mb-8 text-center">
-          Create Explore Post
+    <div className="max-w-7xl min-h-screen flex flex-col gap-10 justify-center items-center mx-auto bg-[#212121] py-10">
+      <div className="w-full max-w-4xl p-6 sm:p-10 rounded-2xl shadow-xl border border-gray-700">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#FFD700] mb-8 text-center">
+          Create Event Post
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Image Upload Section */}
           <div>
-            <label className="block text-xl font-medium text-gray-300 mb-4">
-              Upload Images (Max 3)
+            <label className="block text-lg sm:text-xl font-medium text-gray-300 mb-3">
+              Event Image
             </label>
 
-            <div className="flex flex-wrap gap-4 mb-6">
+            <div className="flex flex-wrap gap-4 mb-4">
               {previews.length > 0 ? (
                 previews.map((preview, index) => (
                   <div key={index} className="relative group">
-                    <div className="h-40 w-40 rounded-lg overflow-hidden border-2 border-[#FFD700] bg-gray-800 flex items-center justify-center">
+                    <div className="h-40 w-full sm:w-64 rounded-lg overflow-hidden border-2 border-[#FFD700] bg-gray-800 flex items-center justify-center">
                       <img
                         src={preview}
                         alt={`Preview ${index + 1}`}
@@ -196,14 +188,14 @@ const ExplorepostByAdmin = () => {
               )}
             </div>
 
-            <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-[#FFD700] rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700 transition">
-              <div className="flex flex-col items-center justify-center p-5">
-                <UploadCloud className="w-10 h-10 mb-3 text-[#FFD700]" />
-                <p className="mb-2 text-lg text-gray-300">
+            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#FFD700] rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700 transition">
+              <div className="flex flex-col items-center justify-center p-4">
+                <UploadCloud className="w-8 h-8 mb-2 text-[#FFD700]" />
+                <p className="mb-1 text-sm sm:text-base text-gray-300 text-center">
                   Click to upload or drag and drop
                 </p>
-                <p className="text-sm text-gray-400">
-                  PNG, JPG (MAX. 3 images)
+                <p className="text-xs sm:text-sm text-gray-400">
+                  PNG, JPG (MAX. 1 image)
                 </p>
               </div>
               <input
@@ -212,7 +204,7 @@ const ExplorepostByAdmin = () => {
                 accept="image/*"
                 onChange={handleImageChange}
                 className="hidden"
-                disabled={images.length >= 3}
+                disabled={images.length >= 1}
               />
             </label>
           </div>
@@ -221,57 +213,76 @@ const ExplorepostByAdmin = () => {
           <div>
             <label
               htmlFor="title"
-              className="block text-xl font-medium text-gray-300 mb-4"
+              className="block text-lg sm:text-xl font-medium text-gray-300 mb-3"
             >
-              Title
+              Event Title
             </label>
             <input
               id="title"
               type="text"
-              className="w-full px-4 py-3 bg-gray-800  rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
-              placeholder="Write a title for your post..."
+              className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-base sm:text-lg"
+              placeholder="Enter event title..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
           </div>
 
-          {/* Category Section */}
-          <div>
-            <label
-              htmlFor="category"
-              className="block text-xl font-medium text-gray-300 mb-4"
-            >
-              Category
-            </label>
-            <select
-              id="category"
-              className="w-full px-4 py-3 bg-gray-800  rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required
-            >
-              {categories.map((cat) => (
-                <option key={cat.value} value={cat.value}>
-                  {cat.label}
-                </option>
-              ))}
-            </select>
+          {/* Date and Location Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Date Section */}
+            <div>
+              <label
+                htmlFor="date"
+                className="block text-lg sm:text-xl font-medium text-gray-300 mb-3 flex items-center gap-2"
+              >
+                <Calendar className="h-5 w-5" />
+                Event Date & Time
+              </label>
+              <input
+                id="date"
+                type="datetime-local"
+                className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-base sm:text-lg"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                required
+              />
+            </div>
+
+            {/* Location Section */}
+            <div>
+              <label
+                htmlFor="location"
+                className="block text-lg sm:text-xl font-medium text-gray-300 mb-3 flex items-center gap-2"
+              >
+                <MapPin className="h-5 w-5" />
+                Event Location
+              </label>
+              <input
+                id="location"
+                type="text"
+                className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-base sm:text-lg"
+                placeholder="Enter event location..."
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                required
+              />
+            </div>
           </div>
 
           {/* Description Section */}
           <div>
             <label
               htmlFor="description"
-              className="block text-xl font-medium text-gray-300 mb-4"
+              className="block text-lg sm:text-xl font-medium text-gray-300 mb-3"
             >
-              Description
+              Event Description
             </label>
             <textarea
               id="description"
               rows={5}
-              className="w-full px-4 py-3 bg-gray-800  rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
-              placeholder="Write a compelling description about these images..."
+              className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-base sm:text-lg"
+              placeholder="Describe your event details..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
@@ -283,27 +294,28 @@ const ExplorepostByAdmin = () => {
             <button
               type="submit"
               disabled={isUploading || images.length === 0}
-              className={`px-8 py-4 text-xl font-bold rounded-full transition-colors flex items-center gap-2
-                ${isUploading || images.length === 0
-                  ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                  : "bg-[#FFD700] hover:bg-[#e6c200] text-gray-900 hover:scale-105 transform transition"
+              className={`px-6 py-3 sm:px-8 sm:py-4 text-lg sm:text-xl font-bold rounded-full transition-colors flex items-center gap-2
+                ${
+                  isUploading || images.length === 0
+                    ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                    : "bg-[#FFD700] hover:bg-[#e6c200] text-gray-900 hover:scale-105 transform transition"
                 }`}
             >
               {isUploading ? (
                 <>
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
-                  Uploading...
+                  <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-b-2 border-gray-900"></div>
+                  Creating Event...
                 </>
               ) : (
-                "Publish Explore Post"
+                "Publish Event"
               )}
             </button>
           </div>
         </form>
       </div>
-      <ExplorePostsList />
+      <EventList />
     </div>
   );
 };
 
-export default ExplorepostByAdmin;
+export default EventPost;

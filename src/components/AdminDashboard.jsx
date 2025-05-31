@@ -6,6 +6,7 @@ import Home from "./AdminHome";
 import FeaturePost from "./FeaturePost";
 import ExplorepostByAdmin from "./ExplorepostByAdmin";
 import FeaturePostsList from "./FeaturePostsList";
+import EventPost from "./EventPost";
 
 const AdminDashboard = () => {
   const [activePanel, setActivePanel] = useState("Home");
@@ -31,6 +32,11 @@ const AdminDashboard = () => {
       key: "ExplorepostByAdmin",
       label: "ExplorepostByAdmin",
       content: () => <ExplorepostByAdmin />,
+    },
+    {
+      key: "EventPost",
+      label: "EventPost",
+      content: () => <EventPost />,
     },
 
   ];
