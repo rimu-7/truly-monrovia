@@ -17,6 +17,9 @@ const ResendConfirmation = lazy(() => import("./pages/ResendConfirmation"));
 const Feature = lazy(() => import("./pages/Feature"));
 const Explore = lazy(() => import("./pages/Explore"));
 const ExploreView = lazy(() => import("./pages/ExploreView"));
+const Magazine = lazy(() => import("./pages/Magazine"));
+
+
 const ErrorPage = lazy(() => import("./Shared/ErrorPage"));
 
 const App = () => {
@@ -47,9 +50,10 @@ const App = () => {
             <Route path="/postview/:id" element={<PostView />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/explores/:id" element={<ExploreView />} />
-
             <Route path="/eventview/:id" element={<EventView />} />
             <Route path="/events" element={<Events />} />
+            <Route path="/tm-magazine" element={<Magazine />} />
+
 
             <Route path="*" element={<ErrorPage />} />
           </Routes>

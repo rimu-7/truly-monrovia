@@ -99,6 +99,15 @@ const HomePage = () => {
                 Submit Your Works
               </button>
             </div>
+            <p className=" bg-black  p-10 rounded-2xl mt-20 text-3xl text-red-500">if you can see this text it's mean the website is still underddeveloping, now only working pages list are:
+              <ul className="text-yellow-300 text-xl">
+                <li>1.Home</li>
+                <li>2.Explore</li>
+                <li>3.Feature</li>
+                <li>4.Event</li>
+                <li>5.Submit & B Seen</li>
+                </ul>
+              </p>
           </div>
         </div>
       </div>
@@ -132,6 +141,7 @@ const HomePage = () => {
               </Link>
             ))}
           </div>
+
         </div>
       </div>
 
