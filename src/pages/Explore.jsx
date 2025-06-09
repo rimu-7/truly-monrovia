@@ -5,218 +5,248 @@ import { toast } from "react-toastify";
 import { ArrowRight, Search } from "lucide-react";
 
 const Explore = () => {
-    const [explore, setExplore] = useState([]);
-    const [filteredPosts, setFilteredPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [selectedCategory, setSelectedCategory] = useState("all");
-    const [searchQuery, setSearchQuery] = useState("");
-    const navigate = useNavigate();
+  const [explore, setExplore] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
-    const categories = [
-        { id: "all", name: "All" },
-        { id: "popular", name: "Popular " },
-        { id: "music", name: "Music" },
-        { id: "fashion", name: "Fashion" },
-        { id: "arts", name: "Arts" },
-        { id: "photography", name: "Photography" },
-        { id: "others", name: "Others" },
-    ];
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const categoryFromUrl = queryParams.get("category");
 
-    useEffect(() => {
-        const fetchFeaturePosts = async () => {
-            try {
-                setLoading(true);
-                const { data, error } = await supabase
-                    .from("explore-posts")
-                    .select("*")
-                    .order("created_at", { ascending: false });
+    if (
+      categoryFromUrl &&
+      categories.some((cat) => cat.id === categoryFromUrl)
+    ) {
+      setSelectedCategory(categoryFromUrl);
+    }
+  }, [location.search]);
 
-                if (error) throw error;
+  const categories = [
+    { id: "all", name: "All" },
+    { id: "popular", name: "Popular " },
+    { id: "music", name: "Music" },
+    { id: "fashion", name: "Fashion" },
+    { id: "arts", name: "Arts" },
+    { id: "photography", name: "Photography" },
+    { id: "others", name: "Others" },
+  ];
 
-                setExplore(data || []);
-                setFilteredPosts(data || []);
-            } catch (error) {
-                console.error("Error fetching feature posts:", error);
-                toast.error("Failed to load featured posts");
-            } finally {
-                setLoading(false);
-            }
-        };
+  useEffect(() => {
+    const fetchFeaturePosts = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from("explore-posts")
+          .select("*")
+          .order("created_at", { ascending: false });
 
-        fetchFeaturePosts();
-    }, [navigate]);
+        if (error) throw error;
 
-    useEffect(() => {
-        let results = [...explore];
-
-        // Apply category filter
-        if (selectedCategory === "popular") {
-            // Sort by view count (descending) and take the top posts
-            results = [...results].sort((a, b) => (b.count || 0) - (a.count || 0));
-        } else if (selectedCategory !== "all") {
-            results = results.filter(post => post.category === selectedCategory);
-        }
-
-        // Apply search filter
-        if (searchQuery) {
-            const query = searchQuery.toLowerCase();
-            results = results.filter(post =>
-                (post.title?.toLowerCase().includes(query)) ||
-                (post.description?.toLowerCase().includes(query)) ||
-                (post.category?.toLowerCase().includes(query))
-            );
-        }
-
-        setFilteredPosts(results);
-    }, [selectedCategory, searchQuery, explore]);
-
-    const handleReadMore = async (postId) => {
-        try {
-            const { data: updatedPost, error } = await supabase.rpc('increment_count', {
-                post_id: postId
-            });
-
-            if (error) throw error;
-
-            setExplore(prevExplore =>
-                prevExplore.map(post =>
-                    post.id === postId
-                        ? { ...post, count: (post.count || 0) + 1 }
-                        : post
-                )
-            );
-
-            navigate(`/explores/${postId}`);
-        } catch (error) {
-            console.error("Error updating count:", error);
-            toast.error("Failed to update view count");
-        }
+        setExplore(data || []);
+        setFilteredPosts(data || []);
+      } catch (error) {
+        console.error("Error fetching feature posts:", error);
+        toast.error("Failed to load featured posts");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
-            </div>
-        );
+    fetchFeaturePosts();
+  }, [navigate]);
+
+  useEffect(() => {
+    let results = [...explore];
+
+    // Apply category filter
+    if (selectedCategory === "popular") {
+      // Sort by view count (descending) and take the top posts
+      results = [...results].sort((a, b) => (b.count || 0) - (a.count || 0));
+    } else if (selectedCategory !== "all") {
+      results = results.filter((post) => post.category === selectedCategory);
     }
 
-    if (!explore || explore.length === 0) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <p className="text-gray-600 text-lg">No featured posts available</p>
-            </div>
-        );
+    // Apply search filter
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      results = results.filter(
+        (post) =>
+          post.title?.toLowerCase().includes(query) ||
+          post.description?.toLowerCase().includes(query) ||
+          post.category?.toLowerCase().includes(query)
+      );
     }
 
+    setFilteredPosts(results);
+  }, [selectedCategory, searchQuery, explore]);
+
+  const handleReadMore = async (postId) => {
+    try {
+      const { data: updatedPost, error } = await supabase.rpc(
+        "increment_count",
+        {
+          post_id: postId,
+        }
+      );
+
+      if (error) throw error;
+
+      setExplore((prevExplore) =>
+        prevExplore.map((post) =>
+          post.id === postId ? { ...post, count: (post.count || 0) + 1 } : post
+        )
+      );
+
+      navigate(`/explores/${postId}`);
+    } catch (error) {
+      console.error("Error updating count:", error);
+      toast.error("Failed to update view count");
+    }
+  };
+
+  if (loading) {
     return (
-        <section className="max-w-7xl min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold sm:text-4xl">
-                    Explore Posts
-                </h2>
-                <p className="mt-4 text-xl text-gray-300">
-                    Discover our latest and most popular content
-                </p>
-            </div>
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
+      </div>
+    );
+  }
 
-            {/* Search and Filter Section */}
-            <div className="mb-8 space-y-4">
-                {/* Search Bar */}
-                <div className="relative max-w-2xl mx-auto">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Search className="h-5 w-5 text-gray-400" />
-                    </div>
-                    <input
-                        type="text"
-                        placeholder="Search posts by title, description, or category..."
-                        className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                </div>
+  if (!explore || explore.length === 0) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-gray-600 text-lg">No featured posts available</p>
+      </div>
+    );
+  }
 
-                {/* Category Filter Bar */}
-                <div className="flex flex-wrap justify-center gap-2">
-                    {categories.map((category) => (
-                        <button
-                            key={category.id}
-                            onClick={() => setSelectedCategory(category.id)}
-                            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors
-                                ${selectedCategory === category.id
+  return (
+    <section className="max-w-7xl min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-bold sm:text-4xl">Explore Posts</h2>
+        <p className="mt-4 text-xl text-gray-300">
+          Discover our latest and most popular content
+        </p>
+      </div>
+
+      {/* Search and Filter Section */}
+      <div className="mb-8 space-y-4">
+        {/* Search Bar */}
+        <div className="relative max-w-2xl mx-auto">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="h-5 w-5 text-gray-400" />
+          </div>
+          <input
+            type="text"
+            placeholder="Search posts by title, description, or category..."
+            className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
+        {/* Category Filter Bar */}
+        <div className="flex flex-wrap justify-center gap-2">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setSelectedCategory(category.id)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors
+                                ${
+                                  selectedCategory === category.id
                                     ? "bg-[#FFD700] text-gray-900"
                                     : "bg-gray-700 text-gray-300 hover:bg-gray-600"
                                 }`}
-                        >
-                            {category.name}
-                        </button>
-                    ))}
+            >
+              {category.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Posts Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {filteredPosts.map((post, index) => (
+          <article
+            key={index}
+            className="border-2 border-yellow-300 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
+          >
+            <div className="relative h-48 overflow-hidden">
+              <img
+                src={post.image1}
+                alt={post.title || "Featured post"}
+                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute top-2 left-2 bg-[#FFD700] text-gray-900 px-2 py-1 rounded-md text-sm font-bold">
+                {post.category}
+              </div>
+              {selectedCategory === "popular" && (
+                <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded-md text-sm font-bold">
+                  {post.count || 0} views
                 </div>
+              )}
             </div>
 
-            {/* Posts Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredPosts.map((post, index) => (
-                    <article
-                        key={index}
-                        className="border-2 border-yellow-300 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
-                    >
-                        <div className="relative h-48 overflow-hidden">
-                            <img
-                                src={post.image1}
-                                alt={post.title || "Featured post"}
-                                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                                loading="lazy"
-                            />
-                            <div className="absolute top-2 left-2 bg-[#FFD700] text-gray-900 px-2 py-1 rounded-md text-sm font-bold">
-                                {post.category}
-                            </div>
-                            {selectedCategory === "popular" && (
-                                <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded-md text-sm font-bold">
-                                    {post.count || 0} views
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="px-4 py-2">
-                            <div className="flex justify-between items-center text-sm text-gray-300 mb-2">
-                                <time dateTime={new Date(post.created_at).toISOString()}>
-                                    {new Date(post.created_at).toLocaleDateString('en-US', {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric'
-                                    })}
-                                </time>
-                                {selectedCategory !== "popular" && (
-                                    <span className="ml-2">{post.count || 0} views</span>
-                                )}
-                            </div>
-                            <h3 className="text-xl font-semibold text-white">
-                                {post.title || "Untitled Post"}
-                            </h3>
-                            <p className="text-gray-300 line-clamp-3">
-                                {(post.description || "No description available").length > 70
-                                    ? (post.description || "No description available").substring(0, 70) + "..."
-                                    : (post.description || "No description available")}
-                            </p>
-                            <button
-                                onClick={() => handleReadMore(post.id)}
-                                className="inline-flex items-center text-yellow-300 cursor-pointer hover:text-yellow-400 font-medium"
-                            >
-                                Read more <ArrowRight className="ml-2 h-4 w-4 hover:scale-105" />
-                            </button>
-                        </div>
-                    </article>
-                ))}
+            <div className="px-4 py-2">
+              <div className="flex justify-between items-center text-sm text-gray-300 mb-2">
+                <time dateTime={new Date(post.created_at).toISOString()}>
+                  {new Date(post.created_at).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+                {selectedCategory !== "popular" && (
+                  <span className="ml-2">{post.count || 0} views</span>
+                )}
+              </div>
+              <h3 className="text-xl font-semibold text-white">
+                {post.title || "Untitled Post"}
+              </h3>
+              <p className="text-gray-300 line-clamp-3">
+                {(post.description || "No description available").length > 70
+                  ? (post.description || "No description available").substring(
+                      0,
+                      70
+                    ) + "..."
+                  : post.description || "No description available"}
+              </p>
+              {/* <button
+                onClick={() => handleReadMore(post.id)}
+                className="inline-flex items-center text-yellow-300 cursor-pointer hover:text-yellow-400 font-medium"
+              >
+                Read more{" "}
+                <ArrowRight className="ml-2 h-4 w-4 hover:scale-105" />
+              </button> */}
+              <div className=" flex mt-2 justify-center items-center">
+                <button
+                  onClick={() => handleReadMore(post.id)}
+                  className=" w-full bg-white hover:bg-[#FDD700]  cursor-pointer text-black px-3 py-2 rounded-md transition-transform duration-300"
+                >
+                  <span className="inline-flex transition-transform items-center justify-center duration-300 hover:translate-x-3 ">
+                    Read more
+                    <ArrowRight />
+                  </span>
+                </button>
+              </div>
             </div>
+          </article>
+        ))}
+      </div>
 
-            {filteredPosts.length === 0 && (
-                <div className="text-center py-12">
-                    <p className="text-xl text-gray-400">No posts found matching your criteria</p>
-                </div>
-            )}
-        </section>
-    );
+      {filteredPosts.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-xl text-gray-400">
+            No posts found matching your criteria
+          </p>
+        </div>
+      )}
+    </section>
+  );
 };
 
 export default Explore;

@@ -18,6 +18,8 @@ const Feature = lazy(() => import("./pages/Feature"));
 const Explore = lazy(() => import("./pages/Explore"));
 const ExploreView = lazy(() => import("./pages/ExploreView"));
 const Magazine = lazy(() => import("./pages/Magazine"));
+const Library = lazy(() => import("./pages/Library"));
+const About = lazy(() => import("./pages/About"));
 
 
 const ErrorPage = lazy(() => import("./Shared/ErrorPage"));
@@ -53,6 +55,8 @@ const App = () => {
             <Route path="/eventview/:id" element={<EventView />} />
             <Route path="/events" element={<Events />} />
             <Route path="/tm-magazine" element={<Magazine />} />
+            <Route path="/library" element={<Library />} />
+            <Route path="/about" element={<About />} />
 
 
             <Route path="*" element={<ErrorPage />} />

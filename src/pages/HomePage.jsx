@@ -13,8 +13,9 @@ const HomePage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-[#212121]">
+      <div className="flex flex-col gap-3 justify-center items-center min-h-screen bg-[#212121]">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
+        <p className="text-lg">Loading.....</p>
       </div>
     );
   }
@@ -23,28 +24,24 @@ const HomePage = () => {
     {
       id: 1,
       name: "Music",
-      link: "/",
       image:
         "https://images.pexels.com/photos/2746823/pexels-photo-2746823.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     },
     {
       id: 2,
       name: "Fashion",
-      link: "/",
       image:
         "https://images.pexels.com/photos/32114924/pexels-photo-32114924/free-photo-of-elegant-portrait-of-woman-in-black-dress.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     },
     {
       id: 3,
       name: "Photography",
-      link: "/",
       image:
         "https://images.pexels.com/photos/3680219/pexels-photo-3680219.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     },
     {
       id: 4,
       name: "Visual Arts",
-      link: "/",
       image:
         "https://images.pexels.com/photos/1604991/pexels-photo-1604991.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     },
@@ -88,7 +85,7 @@ const HomePage = () => {
             <p className="text-3xl md:text-7xl capitalize font-semibold">
               Where Liberian culture lives, breathes, and shines
             </p>
-            <div className="capitalize flex flex-col md:flex-row gap-4 mt-4">
+            {/* <div className="capitalize flex flex-col md:flex-row gap-4 mt-4">
               <button className="capitalize bg-[#FFD700] text-black cursor-pointer hover:bg-yellow-400 duration-300 ease-in-out transition-colors px-4 py-2 text-center rounded-md">
                 Discover Artist
               </button>
@@ -98,16 +95,21 @@ const HomePage = () => {
               <button className="capitalize bg-[#FFD700] text-black cursor-pointer hover:bg-yellow-400 duration-300 ease-in-out transition-colors px-4 py-2 text-center rounded-md">
                 Submit Your Works
               </button>
-            </div>
-            <p className=" bg-black  p-10 rounded-2xl mt-20 text-3xl text-red-500">if you can see this text it's mean the website is still underddeveloping, now only working pages list are:
+            </div> */}
+            <p className=" bg-black  p-10 rounded-2xl mt-20 text-3xl text-red-500">
+              if you can see this text it's mean the website is still
+              underddeveloping, now only working pages list are:
               <ul className="text-yellow-300 text-xl">
                 <li>1.Home</li>
                 <li>2.Explore</li>
                 <li>3.Feature</li>
                 <li>4.Event</li>
                 <li>5.Submit & B Seen</li>
-                </ul>
-              </p>
+                <li>6.Library</li>
+                <li>7.About</li>
+                <li>8.TM-Magazine</li>
+              </ul>
+            </p>
           </div>
         </div>
       </div>
@@ -125,7 +127,10 @@ const HomePage = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {explore.map((item) => (
-              <Link to={item.link} key={item.id}>
+              <Link
+                to={`/explore?category=${item.name.toLowerCase()}`}
+                key={item.id}
+              >
                 <div className="rounded-md border-2 border-[#FFD700] cursor-pointer shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
                   <img
                     src={item.image}
@@ -133,7 +138,7 @@ const HomePage = () => {
                     className="w-full h-56 object-cover hover:scale-105 transition-all duration-300 ease-in-out"
                   />
                   <div className="p-6 text-center">
-                    <p className="text-2xl font-semibold  hover:text-[#FFD700] transition-colors duration-300">
+                    <p className="text-2xl font-semibold hover:text-[#FFD700] transition-colors duration-300">
                       {item.name}
                     </p>
                   </div>
@@ -141,7 +146,6 @@ const HomePage = () => {
               </Link>
             ))}
           </div>
-
         </div>
       </div>
 

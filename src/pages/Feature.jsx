@@ -39,14 +39,14 @@ const Feature = () => {
       const { data: updatedPost, error } = await supabase.rpc('increment_count', {
         post_id: postId
       });
-      
+
       if (error) throw error;
 
       // Then update the local state to reflect the change
-      setFeatures(prevFeatures => 
-        prevFeatures.map(post => 
-          post.id === postId 
-            ? { ...post, count: (post.count || 0) + 1 } 
+      setFeatures(prevFeatures =>
+        prevFeatures.map(post =>
+          post.id === postId
+            ? { ...post, count: (post.count || 0) + 1 }
             : post
         )
       );
@@ -119,12 +119,18 @@ const Feature = () => {
                   ? (post.description || "No description available").substring(0, 70) + "..."
                   : (post.description || "No description available")}
               </p>
-              <button
-                onClick={() => handleReadMore(post.id)}
-                className="inline-flex items-center text-yellow-300 cursor-pointer hover:text-yellow-400 font-medium"
-              >
-                Read more <ArrowRight className="ml-2 h-4 w-4 hover:scale-105" />
-              </button>
+              <div className=" flex justify-center items-center">
+                <button
+                  onClick={() => handleReadMore(post.id)}
+                  className=" w-full bg-white hover:bg-[#FDD700]  cursor-pointer text-black px-3 py-2 rounded-md transition-transform duration-300"
+                >
+                  <span className="inline-flex transition-transform items-center justify-center duration-300 hover:translate-x-3 ">Read more
+
+                    <ArrowRight />
+                  </span>
+                </button>
+
+              </div>
             </div>
           </article>
         ))}
