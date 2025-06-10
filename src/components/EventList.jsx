@@ -270,7 +270,7 @@ const EventList = () => {
                                                 )}
                                             </span>
                                             {/* comment out for show edit and delete button */}
-                                            {/* <div className="flex gap-2">
+                                            <div className="flex gap-2">
                                                 {editingId === post.id ? (
                                                     <>
                                                         <button
@@ -316,7 +316,7 @@ const EventList = () => {
                                                         </button>
                                                     </>
                                                 )}
-                                            </div> */}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

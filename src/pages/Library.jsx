@@ -27,6 +27,13 @@ const MasonryGallery = () => {
 
     fetchImages();
   }, []);
+  if (!images || images.length === 0) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-gray-600 text-lg">No featured posts available</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 max-w-7xl mx-auto min-h-screen">

@@ -4,7 +4,7 @@ import { UploadCloud, X } from "lucide-react";
 import { supabase } from "../../supabase/supabase_client";
 import { UserAuth } from "../../supabase/AuthContext";
 
-const MasonryImageUpload = () => {
+const HeroBg = () => {
   const { session } = UserAuth();
   const [images, setImages] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
@@ -12,9 +12,9 @@ const MasonryImageUpload = () => {
   const [uploading, setUploading] = useState(false);
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files).slice(0, 10 - images.length);
-    if (files.length + images.length > 10) {
-      toast.warning("Max 10 images allowed per upload.");
+    const files = Array.from(e.target.files).slice(0, 1 - images.length);
+    if (files.length + images.length > 1) {
+      toast.warning("Max 1 image allowed per upload.");
       return;
     }
 
@@ -28,7 +28,7 @@ const MasonryImageUpload = () => {
 
   const handleDescriptionChange = (index, value) => {
     const desc = value.trim().split(" ");
-    if (desc.length > 3) return;
+    if (desc.length > 40) return;
     const updated = [...descriptions];
     updated[index] = value;
     setDescriptions(updated);
@@ -71,8 +71,11 @@ const MasonryImageUpload = () => {
 
     if (images.length === 0) return toast.warning("Upload at least one image");
 
-    const invalidDesc = descriptions.some((desc) => desc.trim().split(" ").length > 3);
-    if (invalidDesc) return toast.error("Each description must be max 3 words");
+    const invalidDesc = descriptions.some(
+      (desc) => desc.trim().split(" ").length > 40
+    );
+    if (invalidDesc)
+      return toast.error("Each description must be max 40 words");
 
     try {
       setUploading(true);
@@ -84,7 +87,7 @@ const MasonryImageUpload = () => {
         description: descriptions[idx].trim(),
       }));
 
-      const { error } = await supabase.from("image-library").insert(rows);
+      const { error } = await supabase.from("hero-bg").insert(rows);
       if (error) throw error;
 
       toast.success("Images uploaded successfully!");
@@ -104,37 +107,38 @@ const MasonryImageUpload = () => {
   return (
     <div className="min-h-screen bg-[#212121] py-12 flex flex-col items-center px-4">
       <h1 className="text-4xl font-extrabold text-[#FFD700] mb-8 text-center">
-        Upload Gallery Images
+        Upload HomePgae Backgraound Image & Description
       </h1>
+      <p className="capitalize text-red-600">
+        the picture must be a wide or landscape
+      </p>
 
       <form onSubmit={handleSubmit} className="w-full max-w-4xl space-y-10">
         {/* Image Previews with Description */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-4">
           {previews.map((preview, idx) => (
-            <div key={idx} className="relative">
-              <div className="h-52 rounded-xl overflow-hidden border-2 border-[#FFD700]">
+            <div key={idx} className="relative mb-4">
+              <div className="h-80 rounded-xl overflow-hidden border-2 border-[#FFD700] shadow-lg">
                 <img
                   src={preview}
                   alt="preview"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <input
-                type="text"
-                maxLength={40}
-                placeholder="Max 3 words"
+              <textarea
+                maxLength={200}
+                placeholder="Max 200 characters"
                 value={descriptions[idx]}
-                onChange={(e) =>
-                  handleDescriptionChange(idx, e.target.value)
-                }
-                className="mt-2 w-full px-3 py-2 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FFD700]"
+                onChange={(e) => handleDescriptionChange(idx, e.target.value)}
+                className="mt-3 w-full h-32 px-3 py-2 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FFD700] resize-none"
               />
+
               <button
                 type="button"
-                className="absolute top-2 right-2 bg-red-600 rounded-full p-1"
+                className="absolute top-2 right-2 bg-red-600 rounded-full p-2 hover:bg-red-700 transition duration-200"
                 onClick={() => removeImage(idx)}
               >
-                <X className="text-white h-5 w-5" />
+                <X className="text-white h-6 w-6" />
               </button>
             </div>
           ))}
@@ -144,14 +148,14 @@ const MasonryImageUpload = () => {
         <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-[#FFD700] rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700 transition">
           <UploadCloud className="w-10 h-10 mb-3 text-[#FFD700]" />
           <p className="mb-1 text-lg text-gray-300">Click or Drag to Upload</p>
-          <p className="text-sm text-gray-400">Max 10 images, JPG/PNG</p>
+          <p className="text-sm text-gray-400">Max 1 image, JPG/PNG</p>
           <input
             type="file"
             multiple
             accept="image/*"
             className="hidden"
             onChange={handleImageChange}
-            disabled={images.length >= 10}
+            disabled={images.length >= 1}
           />
         </label>
 
@@ -161,12 +165,13 @@ const MasonryImageUpload = () => {
             type="submit"
             disabled={uploading || images.length === 0}
             className={`px-8 py-4 text-xl font-bold rounded-full transition-all
-              ${uploading || images.length === 0
-                ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                : "bg-[#FFD700] hover:bg-[#e6c200] text-gray-900 hover:scale-105"
+              ${
+                uploading || images.length === 0
+                  ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                  : "bg-[#FFD700] hover:bg-[#e6c200] text-gray-900 hover:scale-105"
               }`}
           >
-            {uploading ? "Uploading Library Images..." : "Upload Library Images"}
+            {uploading ? "Uploading BG Image..." : "Upload BG Image"}
           </button>
         </div>
       </form>
@@ -174,4 +179,4 @@ const MasonryImageUpload = () => {
   );
 };
 
-export default MasonryImageUpload;
+export default HeroBg;

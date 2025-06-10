@@ -8,6 +8,7 @@ import ExplorepostByAdmin from "./ExplorepostByAdmin";
 import FeaturePostsList from "./FeaturePostsList";
 import EventPost from "./EventPost";
 import ImageUpload from "./ImageUpload";
+import HeroBg from "./HeroBg";
 
 const AdminDashboard = () => {
   const [activePanel, setActivePanel] = useState("Home");
@@ -43,6 +44,11 @@ const AdminDashboard = () => {
       key: "Library",
       label: "Library",
       content: () => <ImageUpload />,
+    },
+    {
+      key: "Hero BG",
+      label: "Hero BG",
+      content: () => <HeroBg />,
     },
 
   ];

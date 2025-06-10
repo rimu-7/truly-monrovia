@@ -2,13 +2,38 @@ import { BookmarkCheck, MapPin } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { MdEventAvailable, MdOutlineTravelExplore } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { supabase } from "../../supabase/supabase_client";
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 500);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      const { data, error } = await supabase
+        .from("hero-bg")
+        .select("image, description")
+        .order("created_at", { ascending: false }); // Optional: newest first
+
+      if (error) {
+        console.error("Error fetching images:", error.message);
+        return;
+      }
+
+      const formatted = data.map((item) => ({
+        url: item.image,
+        desc: item.description,
+      }));
+
+      setImages(formatted);
+    };
+
+    fetchImages();
   }, []);
 
   if (isLoading) {
@@ -79,39 +104,35 @@ const HomePage = () => {
   return (
     <div className="min-h-screend">
       {/* landing-page */}
-      <div className="bg-[url('https://images.pexels.com/photos/7520745/pexels-photo-7520745.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-cover bg-center min-h-screen w-full">
-        <div className="bg-cover backdrop-blur-xs flex justify-center bg-center w-full">
-          <div className="flex w-[60%] flex-col justify-center min-h-screen items-center text-center px-4">
-            <p className="text-3xl md:text-7xl capitalize font-semibold">
-              Where Liberian culture lives, breathes, and shines
-            </p>
-            {/* <div className="capitalize flex flex-col md:flex-row gap-4 mt-4">
-              <button className="capitalize bg-[#FFD700] text-black cursor-pointer hover:bg-yellow-400 duration-300 ease-in-out transition-colors px-4 py-2 text-center rounded-md">
-                Discover Artist
-              </button>
-              <button className="capitalize bg-[#FFD700] text-black cursor-pointer hover:bg-yellow-400 duration-300 ease-in-out transition-colors px-4 py-2 text-center rounded-md">
-                Stream Our Playlist
-              </button>
-              <button className="capitalize bg-[#FFD700] text-black cursor-pointer hover:bg-yellow-400 duration-300 ease-in-out transition-colors px-4 py-2 text-center rounded-md">
-                Submit Your Works
-              </button>
-            </div> */}
-            <p className=" bg-black  p-10 rounded-2xl mt-20 text-3xl text-red-500">
-              if you can see this text it's mean the website is still
-              underddeveloping, now only working pages list are:
-              <ul className="text-yellow-300 text-xl">
-                <li>1.Home</li>
-                <li>2.Explore</li>
-                <li>3.Feature</li>
-                <li>4.Event</li>
-                <li>5.Submit & B Seen</li>
-                <li>6.Library</li>
-                <li>7.About</li>
-                <li>8.TM-Magazine</li>
-              </ul>
-            </p>
+      <div className="min-h-screen w-full">
+        {images.length > 0 && (
+          <div
+            className="bg-cover bg-center min-h-screen w-full"
+            style={{ backgroundImage: `url(${images[0].url})` }} // Use the first image as the background
+          >
+            <div className="bg-cover backdrop-blur-xs flex justify-center bg-center w-full">
+              <div className="flex w-4xl  flex-col justify-center min-h-screen items-center text-center px-4">
+                <p className="text-3xl md:text-7xl p-6 rounded-xl  capitalize text-center font-semibold text-white">
+                  {images[0].desc}{" "}
+                </p>
+                {/* <p className=" bg-black/30  p-10 rounded-2xl mt-20 text-3xl text-red-500">
+                  if you can see this text it's mean the website is still
+                  underddeveloping, now only working pages list are:
+                  <ul className="text-yellow-300 text-xl">
+                    <li>1.Home</li>
+                    <li>2.Explore</li>
+                    <li>3.Feature</li>
+                    <li>4.Event</li>
+                    <li>5.Submit & B Seen</li>
+                    <li>6.Library</li>
+                    <li>7.About</li>
+                    <li>8.TM-Magazine</li>
+                  </ul>
+                </p> */}
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* //explore  */}
@@ -150,7 +171,7 @@ const HomePage = () => {
       </div>
 
       {/* // Upcoming Events */}
-      <div className="px-6 py-12">
+      {/* <div className="px-6 py-12">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12 ">
             <div className="flex justify-center items-center gap-2">
@@ -185,9 +206,23 @@ const HomePage = () => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
 
 export default HomePage;
+
+{
+  /* <div className="capitalize flex flex-col md:flex-row gap-4 mt-4">
+              <button className="capitalize bg-[#FFD700] text-black cursor-pointer hover:bg-yellow-400 duration-300 ease-in-out transition-colors px-4 py-2 text-center rounded-md">
+                Discover Artist
+              </button>
+              <button className="capitalize bg-[#FFD700] text-black cursor-pointer hover:bg-yellow-400 duration-300 ease-in-out transition-colors px-4 py-2 text-center rounded-md">
+                Stream Our Playlist
+              </button>
+              <button className="capitalize bg-[#FFD700] text-black cursor-pointer hover:bg-yellow-400 duration-300 ease-in-out transition-colors px-4 py-2 text-center rounded-md">
+                Submit Your Works
+              </button>
+            </div> */
+}
