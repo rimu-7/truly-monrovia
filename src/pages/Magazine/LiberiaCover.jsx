@@ -24,9 +24,9 @@ const LiberiaCover = () => {
                         <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-8 leading-tight">
                             Telling the Liberian story boldly
                         </h1>
-                        <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full text-lg md:text-xl transition duration-300 transform hover:translate-x-1">
+                        {/* <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full text-lg md:text-xl transition duration-300 transform hover:translate-x-1">
                             Read Issue Now
-                        </button>
+                        </button> */}
                     </div>
                 </div>
             </div>

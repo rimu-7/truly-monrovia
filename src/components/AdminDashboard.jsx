@@ -9,6 +9,7 @@ import FeaturePostsList from "./FeaturePostsList";
 import EventPost from "./EventPost";
 import ImageUpload from "./ImageUpload";
 import HeroBg from "./HeroBg";
+import TMPost from "./TMPost";
 
 const AdminDashboard = () => {
   const [activePanel, setActivePanel] = useState("Home");
@@ -34,6 +35,11 @@ const AdminDashboard = () => {
       key: "ExplorepostByAdmin",
       label: "ExplorepostByAdmin",
       content: () => <ExplorepostByAdmin />,
+    },
+    {
+      key: "TM Magazine",
+      label: "TM Magazine",
+      content: () => <TMPost />,
     },
     {
       key: "EventPost",
