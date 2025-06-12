@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../supabase/supabase_client";
+import { supabase } from "../../../supabase/supabase_client";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ArrowRight } from "lucide-react";
@@ -111,10 +111,15 @@ const Feature = () => {
                 </time>
                 <span className="ml-2">{post.count || 0} views</span>
               </div>
-              <h3 className="text-xl font-semibold text-white">
+              {/* <h3 className="text-xl font-semibold text-white">
                 {post.title || "Untitled Post"}
+              </h3> */}
+              <h3 className="text-gray-300 text-xl line-clamp-3">
+                {(post.title || "No description available").length > 70
+                  ? (post.title || "No description available").substring(0, 70) + "..."
+                  : (post.title || "No description available")}
               </h3>
-              <p className="text-gray-300 line-clamp-3">
+              <p className="text-gray-500 line-clamp-3">
                 {(post.description || "No description available").length > 70
                   ? (post.description || "No description available").substring(0, 70) + "..."
                   : (post.description || "No description available")}

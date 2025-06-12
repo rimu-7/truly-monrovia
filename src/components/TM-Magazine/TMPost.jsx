@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { X, UploadCloud, Image as ImageIcon } from "lucide-react";
 import { toast } from "react-toastify";
-import { UserAuth } from "../../supabase/AuthContext";
-import { supabase } from "../../supabase/supabase_client";
+import { UserAuth } from "../../../supabase/AuthContext";
+import { supabase } from "../../../supabase/supabase_client";
 import TMList from "./TMList";
 import FeaturedTMAdmin from "./FeaturedTMAdmin";
+import TMBg from "./TMBg";
 
 const TMPost = () => {
   const { session } = UserAuth();
@@ -157,7 +158,7 @@ const TMPost = () => {
   }
 
   return (
-    <div className="max-w-7xl min-h-screen flex flex-col gap-10 justify-center items-center mx-auto bg-[#212121]">
+    <div className="max-w-7xl min-h-full  flex flex-col gap-10 justify-center items-center mx-auto bg-[#212121]">
       <div className="w-full max-w-4xl p-10 rounded-2xl shadow-xl border border-gray-700">
         <h1 className="text-4xl font-extrabold text-[#FFD700] mb-8 text-center">
           Create TM Magazine Post
@@ -302,6 +303,7 @@ const TMPost = () => {
           </div>
         </form>
       </div>
+      <TMBg/>
       <FeaturedTMAdmin/>
       <TMList />
     </div>

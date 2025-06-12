@@ -22,7 +22,7 @@ const LiberiaAbout = () => {
               to="/tmabout"
               className="self-start flex gap-2 justify-center items-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-full text-lg transition-all duration-300 hover:translate-x-1"
             >
-              Read Magazine <FaArrowRight />
+              Read More <FaArrowRight />
             </Link>
           </div>
         </div>
@@ -39,9 +39,9 @@ const LiberiaAbout = () => {
                 while honoring its heritage.
               </p>
             </div>
-            <button className="self-start flex gap-2 justify-center items-center bg-gray-900 hover:bg-black text-white font-medium py-3 px-8 rounded-full text-lg transition-all duration-300 hover:translate-x-1">
+            {/* <button className="self-start flex gap-2 justify-center items-center bg-gray-900 hover:bg-black text-white font-medium py-3 px-8 rounded-full text-lg transition-all duration-300 hover:translate-x-1">
               Read Issue <FaArrowRight />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

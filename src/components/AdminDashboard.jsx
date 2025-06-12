@@ -9,7 +9,7 @@ import FeaturePostsList from "./FeaturePostsList";
 import EventPost from "./EventPost";
 import ImageUpload from "./ImageUpload";
 import HeroBg from "./HeroBg";
-import TMPost from "./TMPost";
+import TMPost from "./TM-Magazine/TMPost";
 
 const AdminDashboard = () => {
   const [activePanel, setActivePanel] = useState("Home");

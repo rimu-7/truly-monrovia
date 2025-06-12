@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../supabase/supabase_client";
+import { supabase } from "../../../supabase/supabase_client";
 import { toast } from "react-toastify";
 
 const FeaturedTMAdmin = () => {
@@ -78,8 +78,10 @@ const FeaturedTMAdmin = () => {
   if (loading) return <p className="p-6 text-gray-400">Loading posts...</p>;
 
   return (
-    <div className="p-6 bg-[#111] min-h-screen text-white max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold text-yellow-400 mb-6">Select up to 4 Featured Posts</h1>
+    <div className="p-6  min-h-full border border-gray-700 rounded-2xl text-white max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold text-yellow-400 mb-6">
+        Select up to 4 Featured Posts
+      </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {posts.map((post) => (
@@ -88,12 +90,14 @@ const FeaturedTMAdmin = () => {
             onClick={() => togglePost(post.id)}
             className={`cursor-pointer border rounded-lg p-4 transition select-none ${
               selectedIds.includes(post.id)
-                ? "border-yellow-400 bg-yellow-100 text-black"
+                ? "border-yellow-300 bg-green-700 text-black"
                 : "border-gray-700 bg-gray-800"
             }`}
           >
             <h3 className="font-semibold">{post.title}</h3>
-            <p className="text-sm text-gray-300">{post.description?.slice(0, 60)}...</p>
+            <p className="text-sm text-gray-300">
+              {post.description?.slice(0, 60)}...
+            </p>
           </div>
         ))}
       </div>
@@ -101,7 +105,7 @@ const FeaturedTMAdmin = () => {
       <button
         onClick={saveFeaturedPosts}
         disabled={saving}
-        className="mt-6 px-6 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-bold rounded"
+        className="mt-6 px-6 py-4 text-xl bg-yellow-300 w-full cursor-pointer hover:bg-yellow-400 text-black font-bold rounded-lg"
       >
         {saving ? "Saving..." : "Save Featured Posts"}
       </button>
