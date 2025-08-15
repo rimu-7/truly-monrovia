@@ -8,16 +8,15 @@ const FeatureSuggestion = () => {
   const [suggestedPosts, setSuggestedPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const [explore, setExplore] = useState([]);
 
   useEffect(() => {
     const fetchSuggestedPosts = async () => {
       try {
         const { data, error } = await supabase
-          .from("feature-posts")
+          .from("feature")
           .select("*")
           .order("count", { ascending: false })
-          .limit(4);
+          .limit(10);
 
         if (error) throw error;
         setSuggestedPosts(data || []);
@@ -31,10 +30,14 @@ const FeatureSuggestion = () => {
     fetchSuggestedPosts();
   }, []);
 
+  const handleReadMore = (postId) => {
+    navigate(`/postview/${postId}`);
+  };
+
   if (loading) {
     return (
       <div className="space-y-4">
-        {[...Array(4)].map((_, i) => (
+        {[...Array(10)].map((_, i) => (
           <div key={i} className="flex gap-3">
             <Skeleton width={80} height={80} />
             <div className="flex-1">
@@ -45,29 +48,6 @@ const FeatureSuggestion = () => {
       </div>
     );
   }
-  const handleReadMore = async (postId) => {
-    try {
-      const { data: updatedPost, error } = await supabase.rpc(
-        "increment_count",
-        {
-          post_id: postId,
-        }
-      );
-
-      if (error) throw error;
-
-      setExplore((prevExplore) =>
-        prevExplore.map((post) =>
-          post.id === postId ? { ...post, count: (post.count || 0) + 1 } : post
-        )
-      );
-
-      navigate(`/postview/${postId}`);
-    } catch (error) {
-      console.error("Error updating count:", error);
-      toast.error("Failed to update view count");
-    }
-  };
 
   return (
     <div className="sticky top-4">

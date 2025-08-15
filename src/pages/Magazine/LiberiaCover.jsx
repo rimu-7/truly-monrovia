@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../../supabase/supabase_client";
+import MagNav from "./MagNav";
+
 
 const LiberiaCover = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -42,14 +44,16 @@ const LiberiaCover = () => {
     );
   }
   return (
-    <div>
+    <div className="bg-gray-50">
+     
       <div className="min-h-screen w-full">
         {images.length > 0 && (
           <div
             className="bg-cover bg-center min-h-screen w-full"
             style={{ backgroundImage: `url(${images[0].url})` }} // Use the first image as the background
           >
-            <div className="bg-cover backdrop-blur-xs flex justify-center bg-center w-full">
+            {/* <MagNav/> */}
+            <div className="bg-cover flex justify-center bg-center w-full">
               <div className="flex w-4xl  flex-col justify-center min-h-screen items-center text-center px-4">
                 <p className="text-3xl md:text-7xl p-6 rounded-xl  capitalize text-center font-semibold text-white">
                   {images[0].desc}{" "}
@@ -72,6 +76,10 @@ const LiberiaCover = () => {
             </div>
           </div>
         )}
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <img src="card-1.png" alt="" />
+        </div>
       </div>
     </div>
   );

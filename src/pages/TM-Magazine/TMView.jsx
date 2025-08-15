@@ -148,7 +148,7 @@ const TMView = () => {
                   day: "numeric",
                 })}
               </span>
-              <span className="ml-2">{post.count || 0} views</span>
+              ``
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold mt-2 mb-4">
               {post.title}

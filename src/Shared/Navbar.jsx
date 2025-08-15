@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { UserAuth } from "../../supabase/AuthContext";
@@ -9,8 +9,7 @@ const Navbar = () => {
 
   const baseLinkClasses =
     "text-lg hover:text-white transition-colors duration-300 border-b-2 border-transparent hover:border-yellow-300 pb-1";
-  const activeLinkClasses =
-    "border-b-2 border-yellow-300 text-yellow-300 pb-1";
+  const activeLinkClasses = "border-b-2 border-yellow-300 text-yellow-300 pb-1";
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
@@ -33,18 +32,32 @@ const Navbar = () => {
           if (menuOpen) toggleMenu();
         }}
         className={({ isActive }) =>
-          isActive
-            ? `${baseLinkClasses} ${activeLinkClasses}`
-            : baseLinkClasses
+          isActive ? `${baseLinkClasses} ${activeLinkClasses}` : baseLinkClasses
         }
       >
         {link.label}
       </NavLink>
     </li>
   ));
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsSticky(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className="bg-gray-800 mx-auto text-white p-4 shadow-lg">
+    <nav
+      className={`absolute top-0 left-0 w-full py-5 ${
+        isSticky
+          ? "fixed bg-black/50 backdrop-blur-sm shadow-lg"
+          : "bg-transparent"
+      } z-50 transition-all duration-300`}
+    >
       <div className="container w-full mx-auto flex justify-between items-center">
         <Link
           to="/"
@@ -64,14 +77,15 @@ const Navbar = () => {
           {session && (
             <NavLink
               to="/dashboard"
-              className={ ({ isActive }) =>
+              className={({ isActive }) =>
                 isActive
                   ? `${baseLinkClasses} ${activeLinkClasses}`
-                  : baseLinkClasses 
+                  : baseLinkClasses
               }
             >
-              <p className="border-2 ml-2 px-3 rounded-md py-2 font-bold text-center">Dashboard</p>
-
+              <p className="border-2 ml-2 px-3 rounded-md py-2 font-bold text-center">
+                Dashboard
+              </p>
             </NavLink>
           )}
         </div>
@@ -99,7 +113,9 @@ const Navbar = () => {
                     : baseLinkClasses
                 }
               >
-                <p className="border-2 bg-red-500  rounded-md py-2 font-bold text-center">Dashboard</p>
+                <p className="border-2 bg-red-500  rounded-md py-2 font-bold text-center">
+                  Dashboard
+                </p>
               </NavLink>
             )}
           </div>

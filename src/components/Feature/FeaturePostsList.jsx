@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Edit, Trash2, X, Check, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
-import { UserAuth } from "../../supabase/AuthContext";
-import { supabase } from "../../supabase/supabase_client";
+import { UserAuth } from "../../../supabase/AuthContext";
+import { supabase } from "../../../supabase/supabase_client";
 
-const ExplorePostsList = () => {
+const FeaturePostsList = () => {
     const { session } = UserAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -55,7 +55,7 @@ const ExplorePostsList = () => {
     const fetchPosts = async () => {
         try {
             const { data, error } = await supabase
-                .from("explore-posts")
+                .from("feature")
                 .select("*")
                 .order("created_at", { ascending: false });
 
@@ -89,7 +89,7 @@ const ExplorePostsList = () => {
 
         try {
             const { error } = await supabase
-                .from("explore-posts")
+                .from("feature")
                 .update({
                     title: editTitle,
                     description: editDescription,
@@ -117,7 +117,7 @@ const ExplorePostsList = () => {
 
         try {
             const { error } = await supabase
-                .from("explore-posts")
+                .from("feature")
                 .delete()
                 .eq("id", postId);
 
@@ -145,10 +145,10 @@ const ExplorePostsList = () => {
     return (
         <div className="max-w-7xl min-h-screen mx-auto py-12 px-4 sm:px-6 lg:px-8 bg-[#212121]">
             <h1 className="text-4xl font-extrabold text-[#FFD700] mb-8 text-center">
-                Explore Posts Management
+                Feature Posts Management
             </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts.length > 0 ? (
                     posts.map((post) => (
                         <div
@@ -164,9 +164,7 @@ const ExplorePostsList = () => {
                                         className="w-full h-full object-cover"
                                     />
                                 )}
-                                <div className="absolute top-2 left-2 bg-[#FFD700] text-gray-900 px-2 py-1 rounded-md text-sm font-bold">
-                                    {post.category}
-                                </div>
+
                             </div>
 
                             {/* Content */}
@@ -177,13 +175,13 @@ const ExplorePostsList = () => {
                                             type="text"
                                             value={editTitle}
                                             onChange={(e) => setEditTitle(e.target.value)}
-                                            className="w-full px-3 py-2 mb-2 bg-gray-700  rounded text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#FFD700]"
+                                            className="w-full px-3 py-2 mb-2 bg-gray-700 border border-[#FFD700] rounded text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#FFD700]"
                                         />
                                         <textarea
                                             value={editDescription}
                                             onChange={(e) => setEditDescription(e.target.value)}
                                             rows={3}
-                                            className="w-full px-3 py-2 mb-3 bg-gray-700 rounded text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#FFD700]"
+                                            className="w-full px-3 py-2 mb-3 bg-gray-700 border border-[#FFD700] rounded text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#FFD700]"
                                         />
                                     </>
                                 ) : (
@@ -191,6 +189,7 @@ const ExplorePostsList = () => {
                                         <h3 className="text-xl font-bold text-[#FFD700] mb-2">
                                             {post.title}
                                         </h3>
+                                        {/* <p className="text-gray-300 mb-4">{post.description}</p> */}
                                         <p className="text-gray-300 line-clamp-3">
                                             {(post.description || "No description available").length > 70
                                                 ? (post.description || "No description available").substring(0, 70) + "..."
@@ -260,4 +259,4 @@ const ExplorePostsList = () => {
     );
 };
 
-export default ExplorePostsList;
+export default FeaturePostsList;

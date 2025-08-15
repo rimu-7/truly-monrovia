@@ -90,7 +90,6 @@ const EventView = () => {
                                     day: 'numeric'
                                 })}
                             </span>
-                            <span>{post.count || 0} views</span>
                         </div>
 
                         <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-white">{post.title}</h1>

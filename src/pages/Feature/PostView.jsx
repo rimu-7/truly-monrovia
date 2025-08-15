@@ -17,13 +17,27 @@ const PostView = () => {
       try {
         setLoading(true);
         const { data, error } = await supabase
-          .from("feature-posts")
+          .from("feature")
           .select("*")
           .eq("id", id)
           .single();
 
         if (error) throw error;
-        setPost(data);
+
+        // Update view count
+        await supabase
+          .from("feature")
+          .update({ count: (data.count || 0) + 1 })
+          .eq("id", id);
+
+        // Fetch the updated post again to show the new count
+        const { data: updatedData } = await supabase
+          .from("feature")
+          .select("*")
+          .eq("id", id)
+          .single();
+
+        setPost(updatedData);
       } catch (error) {
         console.error("Error fetching post:", error);
         toast.error("Failed to load post");
@@ -92,8 +106,11 @@ const PostView = () => {
                   <img
                     src={postImages[activeImageIndex]}
                     alt={`${post.title} - Image ${activeImageIndex + 1}`}
-                    className="w-full h-full object-contain" // Use object-contain to maintain aspect ratio
+                    className="w-full h-full object-contain"
                     loading="eager"
+                    onError={(e) => {
+                      e.currentTarget.src = "/fallback-image.png"; // fallback path
+                    }}
                   />
                 </div>
 

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ArrowRight, Search } from "lucide-react";
 import { supabase } from "../../../supabase/supabase_client";
+import Navbar from "../../Shared/Navbar";
 
 const TM = () => {
   const [tm, setTM] = useState([]);
@@ -245,7 +246,7 @@ const TM = () => {
           <p className="text-xl text-gray-400">
             No posts found matching your criteria
           </p>
-        </div>
+        </div>``
       )}
     </section>
   );

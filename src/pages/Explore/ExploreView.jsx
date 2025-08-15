@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "../../../supabase/supabase_client";
 import { toast } from "react-toastify";
 import { ArrowLeft, MoveLeft, MoveRight } from "lucide-react";
-import ExploreSuggestion from "./ExploreSuggestion"; // Import the new component
+import ExploreSuggestion from "./ExploreSuggestion";
 
 const ExploreView = () => {
   const { id } = useParams();
@@ -12,30 +12,7 @@ const ExploreView = () => {
   const [loading, setLoading] = useState(true);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        setLoading(true);
-        const { data, error } = await supabase
-          .from("explore-posts")
-          .select("*")
-          .eq("id", id)
-          .single();
-
-        if (error) throw error;
-        setPost(data);
-      } catch (error) {
-        console.error("Error fetching post:", error);
-        toast.error("Failed to load post");
-        navigate("/");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (id) fetchPost();
-  }, [id, navigate]);
-
+  // Define image navigation functions first
   const nextImage = () => {
     if (!post) return;
     const images = [post.image1, post.image2, post.image3].filter(Boolean);
@@ -47,6 +24,43 @@ const ExploreView = () => {
     const images = [post.image1, post.image2, post.image3].filter(Boolean);
     setActiveImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
+
+  useEffect(() => {
+    const fetchAndIncrementPost = async () => {
+      try {
+        setLoading(true);
+        
+        // 1. First fetch the post
+        const { data, error } = await supabase
+          .from("explore")
+          .select("*")
+          .eq("id", id)
+          .single();
+
+        if (error) throw error;
+        
+        // 2. Then increment the view count
+        const { error: updateError } = await supabase
+          .from("explore")
+          .update({ count: (data.count || 0) + 1 })
+          .eq("id", id);
+
+        if (updateError) throw updateError;
+
+        // 3. Set the post data with updated count
+        setPost({ ...data, count: (data.count || 0) + 1 });
+
+      } catch (error) {
+        console.error("Error:", error);
+        toast.error("Failed to load post");
+        navigate("/explore");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) fetchAndIncrementPost();
+  }, [id, navigate]);
 
   if (loading) {
     return (
@@ -60,6 +74,9 @@ const ExploreView = () => {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <p className="text-gray-600">Post not found</p>
+        <Link to="/explore" className="ml-4 text-yellow-300 hover:text-yellow-400">
+          Back to Explore
+        </Link>
       </div>
     );
   }
@@ -68,11 +85,11 @@ const ExploreView = () => {
   const hasMultipleImages = postImages.length > 1;
 
   return (
-    <div className=" min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Back Button */}
-      <div className="pt-6 ">
+      <div className="pt-6">
         <Link
-          to={"/explore"}
+          to="/explore"
           className="flex items-center gap-2 text-yellow-300 hover:text-yellow-400 cursor-pointer transition-colors"
         >
           <ArrowLeft size={20} />
@@ -81,18 +98,18 @@ const ExploreView = () => {
       </div>
 
       {/* Main Content Grid */}
-      <div className="flex max-w-7xl flex-col lg:flex-row gap-8 mt-8">
+      <div className="flex flex-col lg:flex-row gap-8 mt-8">
         {/* Main Content (Left) */}
         <div className="lg:flex-1">
           {/* Image Carousel */}
-          <div className="relative mb-10 rounded-xl overflow-hidden flex justify-center items-center">
+          <div className="relative mb-10 rounded-xl overflow-hidden flex justify-center items-center bg-gray-800">
             {postImages.length > 0 ? (
               <>
                 <div className="relative h-96 w-full">
                   <img
                     src={postImages[activeImageIndex]}
                     alt={`${post.title} - Image ${activeImageIndex + 1}`}
-                    className="w-full h-full object-contain" // Use object-contain to maintain aspect ratio
+                    className="w-full h-full object-contain"
                     loading="eager"
                   />
                 </div>
@@ -136,36 +153,38 @@ const ExploreView = () => {
                 )}
               </>
             ) : (
-              <div className="h-96 w-full bg-gray-100 flex items-center justify-center">
-                <p className="text-gray-500">No images available</p>
+              <div className="h-96 w-full bg-gray-700 flex items-center justify-center">
+                <p className="text-gray-400">No images available</p>
               </div>
             )}
           </div>
 
           {/* Post Content */}
-          <div className="max-w-4xl mx-auto">
+          <div className="mx-auto">
             <header className="mb-8">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-gray-500">
+              <div className="flex justify-between items-center text-gray-400">
+                <span className="text-sm font-medium">
                   {new Date(post.created_at).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
                   })}
                 </span>
-                <span className="ml-2">{post.count || 0} views</span>
+                <span className="text-sm">{post.count || 0} views</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-bold mt-2 mb-4">
+              <h1 className="text-3xl sm:text-4xl font-bold mt-2 mb-4 text-white">
                 {post.title}
               </h1>
-              <p className="text-lg">{post.description}</p>
+              <p className="text-lg text-gray-300 whitespace-pre-line">
+                {post.description}
+              </p>
             </header>
           </div>
         </div>
 
         {/* Sidebar (Right) */}
         <div className="lg:w-80 xl:w-96">
-          <ExploreSuggestion />
+          <ExploreSuggestion currentPostId={id} />
         </div>
       </div>
     </div>

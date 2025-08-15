@@ -4,7 +4,7 @@ import { UploadCloud, X } from "lucide-react";
 import { supabase } from "../../supabase/supabase_client";
 import { UserAuth } from "../../supabase/AuthContext";
 
-const MasonryImageUpload = () => {
+const Library = () => {
   const { session } = UserAuth();
   const [images, setImages] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
@@ -102,7 +102,7 @@ const MasonryImageUpload = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#212121] py-12 flex flex-col items-center px-4">
+    <div className="min-h-screen bg-[#212121] py-20 flex flex-col items-center px-4">
       <h1 className="text-4xl font-extrabold text-[#FFD700] mb-8 text-center">
         Upload Gallery Images
       </h1>
@@ -174,4 +174,4 @@ const MasonryImageUpload = () => {
   );
 };
 
-export default MasonryImageUpload;
+export default Library;

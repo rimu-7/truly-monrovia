@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../../supabase/supabase_client";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ArrowRight, Search } from "lucide-react";
+import { supabase } from "../../../../supabase/supabase_client";
 
-const Feature = () => {
+const Musics = () => {
   const [feature, setFeature] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,9 +58,9 @@ const Feature = () => {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 min-h-screen">
+      <div className="max-w-7xl mx-auto bg-gray-50 px-4 sm:px-6 lg:px-8 py-12 min-h-screen">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold sm:text-4xl text-gray-300">
+          <h2 className="text-3xl font-bold sm:text-4xl ">
             Feature Posts
           </h2>
           <p className="mt-4 text-xl text-gray-500">
@@ -98,7 +98,7 @@ const Feature = () => {
   }
 
   return (
-    <section className="max-w-7xl min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-36">
+    <section className="max-w-7xl min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold sm:text-4xl">Feature Posts</h2>
         <p className="mt-4 text-xl text-gray-300">
@@ -192,4 +192,4 @@ const Feature = () => {
   );
 };
 
-export default Feature;
+export default Musics;

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { X, UploadCloud, Image as ImageIcon } from "lucide-react";
 import { toast } from "react-toastify";
-import { UserAuth } from "../../supabase/AuthContext";
-import { supabase } from "../../supabase/supabase_client";
-import ExplorePostsList from "./ExplorePostsList";
+import { UserAuth } from "../../../supabase/AuthContext";
+import { supabase } from "../../../supabase/supabase_client";
+import FeaturePostsList from "./FeaturePostsList";
 
-const ExplorepostByAdmin = () => {
+const FeaturePost = () => {
   const { session } = UserAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -15,22 +15,12 @@ const ExplorepostByAdmin = () => {
   const [previews, setPreviews] = useState([]);
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("Default");
   const [isUploading, setIsUploading] = useState(false);
-
-  const categories = [
-    { value: "music", label: "Music" },
-    { value: "fashion", label: "Fashion" },
-    { value: "arts", label: "Arts" },
-    { value: "photography", label: "Photography" },
-    { value: "others", label: "Others" },
-    { value: "Default", label: "Select" },
-  ];
 
   useEffect(() => {
     const fetchAdminId = async () => {
       if (!session) {
-        navigate("/login");
+        navigate("/login")
         return toast.error("Only admin can access this");
       }
 
@@ -82,10 +72,11 @@ const ExplorepostByAdmin = () => {
 
   const uploadToCloudinary = async (file) => {
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "trulymonrovia");
+    formData.append("file", file); // Append the file to the form data
+    formData.append("upload_preset", "trulymonrovia"); // Use your upload preset name
 
     try {
+
       const response = await fetch(
         "https://api.cloudinary.com/v1_1/ddssf6cm6/image/upload",
         {
@@ -105,6 +96,7 @@ const ExplorepostByAdmin = () => {
     }
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (images.length === 0) {
@@ -118,7 +110,7 @@ const ExplorepostByAdmin = () => {
         images.map((file) => uploadToCloudinary(file))
       );
 
-      const { error } = await supabase.from("explore-posts").insert([
+      const { error } = await supabase.from("feature").insert([
         {
           new_id: adminId,
           image1: imageUrls[0] || null,
@@ -126,20 +118,19 @@ const ExplorepostByAdmin = () => {
           image3: imageUrls[2] || null,
           title,
           description,
-          category,
         },
       ]);
 
+
       if (error) throw error;
 
-      toast.success("Explore post created successfully!");
+      toast.success("Featured post created successfully!");
       setImages([]);
       setPreviews([]);
-      setTitle("");
+      setTitle("")
       setDescription("");
-      setCategory("others");
     } catch (error) {
-      toast.error("Failed to create explore post");
+      toast.error("Failed to create featured post", error);
       console.error("Submission error:", error);
     } finally {
       setIsUploading(false);
@@ -159,7 +150,7 @@ const ExplorepostByAdmin = () => {
     <div className="max-w-7xl min-h-screen flex flex-col gap-10 justify-center items-center mx-auto bg-[#212121]">
       <div className="w-full max-w-4xl p-10 rounded-2xl shadow-xl border border-gray-700">
         <h1 className="text-4xl font-extrabold text-[#FFD700] mb-8 text-center">
-          Create Explore Post
+          Create Featured Post
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -216,10 +207,8 @@ const ExplorepostByAdmin = () => {
               />
             </label>
           </div>
-
-          {/* Title Section */}
-          <div>
-            <label
+          <div className="">
+          <label
               htmlFor="title"
               className="block text-xl font-medium text-gray-300 mb-4"
             >
@@ -227,36 +216,13 @@ const ExplorepostByAdmin = () => {
             </label>
             <input
               id="title"
-              type="text"
-              className="w-full px-4 py-3 bg-gray-800  rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
-              placeholder="Write a title for your post..."
+              rows={5}
+              className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
+              placeholder="Write a title accordingly to your post..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
-          </div>
-
-          {/* Category Section */}
-          <div>
-            <label
-              htmlFor="category"
-              className="block text-xl font-medium text-gray-300 mb-4"
-            >
-              Category
-            </label>
-            <select
-              id="category"
-              className="w-full px-4 py-3 bg-gray-800  rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required
-            >
-              {categories.map((cat) => (
-                <option key={cat.value} value={cat.value}>
-                  {cat.label}
-                </option>
-              ))}
-            </select>
           </div>
 
           {/* Description Section */}
@@ -295,15 +261,15 @@ const ExplorepostByAdmin = () => {
                   Uploading...
                 </>
               ) : (
-                "Publish Explore Post"
+                "Publish Featured Post"
               )}
             </button>
           </div>
         </form>
       </div>
-      <ExplorePostsList />
+      <FeaturePostsList/>
     </div>
   );
 };
 
-export default ExplorepostByAdmin;
+export default FeaturePost;

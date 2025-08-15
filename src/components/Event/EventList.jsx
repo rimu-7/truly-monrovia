@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Edit, Trash2, X, Check, Loader2, Calendar, MapPin } from "lucide-react";
 import { toast } from "react-toastify";
-import { UserAuth } from "../../supabase/AuthContext";
-import { supabase } from "../../supabase/supabase_client";
+import { UserAuth } from "../../../supabase/AuthContext";
+import { supabase } from "../../../supabase/supabase_client";
 
 const EventList = () => {
     const { session } = UserAuth();

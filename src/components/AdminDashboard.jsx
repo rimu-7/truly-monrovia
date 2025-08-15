@@ -3,13 +3,13 @@ import React, { useState } from "react";
 // Components
 import SubmitBSeen_Data from "./SbmitBSeen_Data";
 import Home from "./AdminHome";
-import FeaturePost from "./FeaturePost";
-import ExplorepostByAdmin from "./ExplorepostByAdmin";
-import FeaturePostsList from "./FeaturePostsList";
-import EventPost from "./EventPost";
-import ImageUpload from "./ImageUpload";
+import EventPost from "./Event/EventPost";
 import HeroBg from "./HeroBg";
 import TMPost from "./TM-Magazine/TMPost";
+import FeaturePost from "./Feature/FeaturePost";
+import ExplorepostByAdmin from "./Explore/ExplorepostByAdmin";
+import Library from "./Library";
+import CategoryBG from "./CategoryBG";
 
 const AdminDashboard = () => {
   const [activePanel, setActivePanel] = useState("Home");
@@ -49,14 +49,18 @@ const AdminDashboard = () => {
     {
       key: "Library",
       label: "Library",
-      content: () => <ImageUpload />,
+      content: () => <Library />,
     },
     {
       key: "Hero BG",
       label: "Hero BG",
       content: () => <HeroBg />,
     },
-
+    {
+      key: "CategoryBG",
+      label: "CategoryBG",
+      content: () => <CategoryBG />,
+    },
   ];
 
   const getButtonClass = (key) =>
@@ -107,10 +111,12 @@ const AdminDashboard = () => {
       <aside
         className={`${
           sidebarOpen ? "block " : "hidden"
-        } lg:block w-full lg:w-64 bg-[#333333]  border-b lg:border-b-0 lg:border-r border-gray-700 p-4 flex flex-col gap-4 z-10`}
+        } lg:block w-full lg:w-64 bg-[#333333] py-36  border-b lg:border-b-0 lg:border-r border-gray-700 p-4 flex flex-col gap-4 z-10`}
       >
         <div className="text-center text-xl font-semibold lg:mb-4">
-          <span className="hidden py-2 px-4 rounded bg-green-500 text-black border-yellow-300 border-2 flex-col w-full mb-2 lg:block">Admin Panel</span>
+          <span className="hidden py-2 px-4 rounded bg-green-500 text-black border-yellow-300 border-2 flex-col w-full mb-2 lg:block">
+            Admin Panel
+          </span>
         </div>
         {panelConfig.map((panel) => (
           <button
