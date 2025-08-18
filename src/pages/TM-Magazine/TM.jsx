@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { ArrowRight, Search } from "lucide-react";
 import { supabase } from "../../../supabase/supabase_client";
 import Navbar from "../../Shared/Navbar";
+import MagazineNavbar from "../Magazine/MagazineNavbar";
 
 const TM = () => {
   const [tm, setTM] = useState([]);
@@ -13,7 +14,6 @@ const TM = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -65,10 +65,7 @@ const TM = () => {
     let results = [...tm];
 
     // Apply category filter
-    if (selectedCategory === "popular") {
-      // Sort by view count (descending) and take the top posts
-      results = [...results].sort((a, b) => (b.count || 0) - (a.count || 0));
-    } else if (selectedCategory !== "all") {
+    if (selectedCategory !== "all" && selectedCategory !== "popular") {
       results = results.filter((post) => post.category === selectedCategory);
     }
 
@@ -88,25 +85,10 @@ const TM = () => {
 
   const handleReadMore = async (postId) => {
     try {
-      const { data: updatedPost, error } = await supabase.rpc(
-        "increment_count",
-        {
-          post_id: postId,
-        }
-      );
-
-      if (error) throw error;
-
-      setTM((prevTM) =>
-        prevTM.map((post) =>
-          post.id === postId ? { ...post, count: (post.count || 0) + 1 } : post
-        )
-      );
-
       navigate(`/tm/${postId}`);
     } catch (error) {
-      console.error("Error updating count:", error);
-      toast.error("Failed to update view count");
+      console.error("Error navigating to post:", error);
+      toast.error("Failed to open post");
     }
   };
 
@@ -127,7 +109,8 @@ const TM = () => {
   }
 
   return (
-    <section className="max-w-7xl min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section className="max-w-7xl min-h-screen mx-auto px-4 sm:px-6 lg:px-8 pt-48">
+      <MagazineNavbar />
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold sm:text-4xl">TM Magazine</h2>
         <p className="mt-4 text-xl text-gray-300">
@@ -187,11 +170,6 @@ const TM = () => {
               <div className="absolute top-2 left-2 bg-[#FFD700] text-gray-900 px-2 py-1 rounded-md text-sm font-bold">
                 {post.category}
               </div>
-              {selectedCategory === "popular" && (
-                <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded-md text-sm font-bold">
-                  {post.count || 0} views
-                </div>
-              )}
             </div>
 
             <div className="px-4 py-2">
@@ -203,9 +181,6 @@ const TM = () => {
                     day: "numeric",
                   })}
                 </time>
-                {selectedCategory !== "popular" && (
-                  <span className="ml-2">{post.count || 0} views</span>
-                )}
               </div>
               <h3 className="text-xl font-semibold text-white">
                 {post.title || "Untitled Post"}
@@ -218,19 +193,12 @@ const TM = () => {
                     ) + "..."
                   : post.description || "No description available"}
               </p>
-              {/* <button
-                onClick={() => handleReadMore(post.id)}
-                className="inline-flex items-center text-yellow-300 cursor-pointer hover:text-yellow-400 font-medium"
-              >
-                Read more{" "}
-                <ArrowRight className="ml-2 h-4 w-4 hover:scale-105" />
-              </button> */}
-              <div className=" flex mt-2 justify-center items-center">
+              <div className="flex mt-2 justify-center items-center">
                 <button
                   onClick={() => handleReadMore(post.id)}
-                  className=" w-full bg-white hover:bg-[#FDD700]  cursor-pointer text-black px-3 py-2 rounded-md transition-transform duration-300"
+                  className="w-full bg-white hover:bg-[#FDD700] cursor-pointer text-black px-3 py-2 rounded-md transition-transform duration-300"
                 >
-                  <span className="inline-flex transition-transform items-center justify-center duration-300 hover:translate-x-3 ">
+                  <span className="inline-flex transition-transform items-center justify-center duration-300 hover:translate-x-3">
                     Read more
                     <ArrowRight />
                   </span>
@@ -246,7 +214,7 @@ const TM = () => {
           <p className="text-xl text-gray-400">
             No posts found matching your criteria
           </p>
-        </div>``
+        </div>
       )}
     </section>
   );

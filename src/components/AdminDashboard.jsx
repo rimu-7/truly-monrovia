@@ -10,6 +10,7 @@ import FeaturePost from "./Feature/FeaturePost";
 import ExplorepostByAdmin from "./Explore/ExplorepostByAdmin";
 import Library from "./Library";
 import CategoryBG from "./CategoryBG";
+import BlogUpload from "./TM-Magazine/BlogUpload";
 
 const AdminDashboard = () => {
   const [activePanel, setActivePanel] = useState("Home");
@@ -40,6 +41,11 @@ const AdminDashboard = () => {
       key: "TM Magazine",
       label: "TM Magazine",
       content: () => <TMPost />,
+    },
+    {
+      key: "TM Blog Upload",
+      label: "TM Blog Upload",
+      content: () => <BlogUpload />,
     },
     {
       key: "EventPost",

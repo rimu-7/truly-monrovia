@@ -8,6 +8,7 @@ import PostView from "./pages/Feature/PostView";
 import Events from "./pages/Event/Events";
 import EventView from "./pages/Event/EventView";
 import TMAbout from "./pages/Magazine/TMAbout";
+import TmBlogDetails from "./pages/Magazine/tmblogs/TmBlogDetails";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const SignUpPage = lazy(() => import("./pages/SignUpPage"));
@@ -62,6 +63,7 @@ const App = () => {
             <Route path="/library" element={<Library />} />
             <Route path="/about" element={<About />} />
             <Route path="/tmabout" element={<TMAbout />} />
+            <Route path="/tm-magazine/tmblog/:id" element={<TmBlogDetails />} />
 
             <Route path="*" element={<ErrorPage />} />
           </Routes>

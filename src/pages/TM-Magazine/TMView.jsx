@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ArrowLeft, MoveLeft, MoveRight } from "lucide-react";
 import { supabase } from "../../../supabase/supabase_client";
+import MagazineNavbar from "../Magazine/MagazineNavbar";
 
 const TMView = () => {
   const { id } = useParams();
@@ -67,7 +68,8 @@ const TMView = () => {
   const hasMultipleImages = postImages.length > 1;
 
   return (
-    <div className="max-w-7xl min-h-screen mx-auto">
+    <div className="max-w-7xl min-h-screen mx-auto pt-36">
+      <MagazineNavbar/>
       {/* Back Button */}
       <div className="px-4 sm:px-6 lg:px-8 pt-6">
         <button
@@ -148,7 +150,7 @@ const TMView = () => {
                   day: "numeric",
                 })}
               </span>
-              ``
+              
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold mt-2 mb-4">
               {post.title}

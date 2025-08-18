@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { UserAuth } from "../../supabase/AuthContext";
+import { UserAuth } from "../../../supabase/AuthContext";
 
-const Navbar = () => {
+const MagazineNavbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { session } = UserAuth();
+  const location = useLocation();
+  const [isSticky, setIsSticky] = useState(false);
+
+
 
   const baseLinkClasses =
     "text-lg hover:text-white transition-colors duration-300 border-b-2 border-transparent hover:border-yellow-300 pb-1";
@@ -14,14 +18,10 @@ const Navbar = () => {
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   const links = [
-    { to: "/", label: "Home" },
-    { to: "/explore", label: "Explore" },
-    { to: "/features", label: "Features" },
-    { to: "/events", label: "Events" },
-    { to: "/tm-magazine", label: "TM-Magazine" },
-    { to: "/submitbseen", label: "Submit & Be Seen" },
-    { to: "/library", label: "Library" },
-    { to: "/about", label: "About" },
+    { to: "/tm-magazine", label: "Home" },
+    { to: "/tm", label: "TM-Magazine" },
+    { to: "/tm?category=popular", label: "Popular" },
+    { to: "/tm-magazine/archive", label: "Archive" },
   ];
 
   const navLinks = links.map((link) => (
@@ -39,58 +39,33 @@ const Navbar = () => {
       </NavLink>
     </li>
   ));
-  const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsSticky(window.scrollY > 0);
-    };
-
+    const handleScroll = () => setIsSticky(window.scrollY > 0);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <nav
-      className={`absolute top-0 left-0 w-full py-5 ${
+      className={`absolute top-27 left-0 w-full  py-5 ${
         isSticky
-          ? "fixed bg-black/50 backdrop-blur-sm"
+          ? "fixed bg-black/30 backdrop-blur-sm border-t-2 "
           : "bg-transparent"
       } z-50 transition-all duration-300`}
     >
-      <div className="container w-full mx-auto flex justify-between items-center">
+      <div className="container mx-auto flex justify-between items-center">
+        {/* Left side: Logo/Brand */}
         <Link
-          to="/"
-          className="text-2xl mr-2 font-bold border-2 rounded-md text-yellow-300 hover:text-yellow-400 transition-colors duration-300"
+          to="/tm-magazine"
+          className="text-2xl font-bold text-yellow-300 hover:text-yellow-400 transition-colors duration-300"
         >
-          <img
-            className="w-40 h-16 duration-300 hover:scale-105"
-            src="https://res.cloudinary.com/ddssf6cm6/image/upload/v1748096307/Photoroom-20250518_220125_x58w7v_b_rgb_FFFFFF-removebg-preview_tibain.png"
-            alt=""
-          />
+          
         </Link>
 
-        {/* Desktop Menu */}
+        {/* Right side: Nav Links */}
         <ul className="hidden lg:flex space-x-6 items-center">{navLinks}</ul>
-
-        <div className="hidden lg:block">
-          {session && (
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                isActive
-                  ? `${baseLinkClasses} ${activeLinkClasses}`
-                  : baseLinkClasses
-              }
-            >
-              <p className="border-2 ml-2 px-3 rounded-md py-2 font-bold text-center">
-                Dashboard
-              </p>
-            </NavLink>
-          )}
-        </div>
-
-        {/* Mobile menu toggle button */}
+        {/* Mobile Menu Button */}
         <div className="lg:hidden">
           <button onClick={toggleMenu} aria-label="Toggle Menu">
             {menuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -113,7 +88,7 @@ const Navbar = () => {
                     : baseLinkClasses
                 }
               >
-                <p className="border-2 bg-red-500  rounded-md py-2 font-bold text-center">
+                <p className="border-2 bg-red-500 rounded-md py-2 font-bold text-center">
                   Dashboard
                 </p>
               </NavLink>
@@ -125,4 +100,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default MagazineNavbar;

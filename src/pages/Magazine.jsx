@@ -2,19 +2,22 @@ import React from 'react'
 import LiberiaCover from './Magazine/LiberiaCover';
 import LiberiaGrid from './Magazine/LiberiaGrid';
 import LiberiaAbout from './Magazine/LiberiaAbout';
-import MagNav from './Magazine/MagNav';
-import Musics from './Magazine/categories/Musics';
+import TmBlogs from './Magazine/tmblogs/TmBlogs';
+import MagazineNavbar from './Magazine/MagazineNavbar';
+import Card from './Magazine/tmblogs/Card';
 
 const Magazine = () => {
   return (
-    <div>
-       {/* <MagNav /> */}
+    <div className='bg-gray-50'>
+       <MagazineNavbar/>
       <LiberiaCover/>
+      <Card/>
       {/* about tm  */}
       <LiberiaAbout/>
       {/* featured article  */}
       <LiberiaGrid />
-      <Musics/>
+      <TmBlogs/>
+      <Card/>
     </div>
   )
 }
