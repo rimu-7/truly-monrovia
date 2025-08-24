@@ -3,6 +3,10 @@ import { MdOutlineTravelExplore } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { supabase } from "../../supabase/supabase_client";
 import { PiEmpty } from "react-icons/pi";
+import Explore2 from "./Explore/Explore2";
+import Feature2 from "./Feature/Feature2";
+import Events2 from "./Event/Events2";
+import TmBlogs2 from "./Magazine/tmblogs/TmBlogs2";
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -68,8 +72,8 @@ const HomePage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col gap-3 justify-center items-center min-h-screen bg-[#212121]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
+      <div className="flex flex-col gap-3 justify-center items-center min-h-screen bg-[#000000]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
         <p className="text-lg">Loading.....</p>
       </div>
     );
@@ -126,7 +130,7 @@ const HomePage = () => {
               item.url ? (
                 <div
                   key={item.id}
-                  className="rounded-md border-2 border-[#FFD700] cursor-pointer shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                  className="rounded-md border-2 border-red-500 cursor-pointer shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
                 >
                   <Link
                     to={`/explore?category=${
@@ -139,7 +143,7 @@ const HomePage = () => {
                       className="w-full h-56 object-cover hover:scale-105 transition-all duration-300 ease-in-out"
                     />
                     <div className="p-6 text-center">
-                      <p className="text-3xl capitalize font-semibold hover:text-[#FFD700] transition-colors duration-300">
+                      <p className="text-3xl capitalize font-semibold hover:text-red-500 transition-colors duration-300">
                         {item.category || "Uncategorized"}
                       </p>
                     </div>
@@ -148,15 +152,19 @@ const HomePage = () => {
               ) : (
                 <div
                   key={item.id}
-                  className="min-h-[224px] flex justify-center items-center gap-2 border-2 p-4 border-[#FFD700] rounded-md  bg-gray-800  "
+                  className="min-h-[224px] flex justify-center items-center gap-2 border-2 p-4 border-red-500 rounded-md  bg-gray-800  "
                 >
-                  empty <PiEmpty/>
+                  empty <PiEmpty />
                 </div>
               )
             )}
           </div>
         </div>
       </div>
+      <Explore2 />
+      <Feature2 />
+      <Events2/>
+      <TmBlogs2/>
     </div>
   );
 };

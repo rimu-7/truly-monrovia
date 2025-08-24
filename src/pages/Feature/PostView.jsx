@@ -65,7 +65,7 @@ const PostView = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
       </div>
     );
   }
@@ -82,12 +82,12 @@ const PostView = () => {
   const hasMultipleImages = postImages.length > 1;
 
   return (
-    <div className=" min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className=" min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-36">
       {/* Back Button */}
       <div className="pt-6 ">
         <Link
           to={"/features"}
-          className="flex items-center gap-2 text-yellow-300 hover:text-yellow-400 cursor-pointer transition-colors"
+          className="flex items-center gap-2 text-red-500 hover:text-red-600 cursor-pointer transition-colors"
         >
           <ArrowLeft size={20} />
           <span>Back to feature</span>

@@ -4,6 +4,7 @@ import { supabase } from "../../../../supabase/supabase_client";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import TmBlogs from "./TmBlogs";
+import MagazineNavbar from "../MagazineNavbar";
 
 const TmBlogDetails = () => {
   const { id } = useParams();
@@ -72,6 +73,7 @@ const TmBlogDetails = () => {
 
   return (
     <div className="">
+      <MagazineNavbar/>
       <div className="max-w-4xl mx-auto px-4 pt-56">
         {/* Image Carousel */}
         {carouselImages.length > 0 && (

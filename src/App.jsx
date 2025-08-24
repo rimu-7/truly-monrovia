@@ -29,13 +29,13 @@ const ErrorPage = lazy(() => import("./Shared/ErrorPage"));
 
 const App = () => {
   return (
-    <div className="bg-[#212121] text-white min-h-screen">
+    <div className="bg-[#000000] text-white min-h-screen">
       <Router>
         <Navbar />
         <Suspense
           fallback={
-            <div className="flex flex-col gap-3 justify-center items-center min-h-screen bg-[#212121]">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
+            <div className="flex flex-col gap-3 justify-center items-center min-h-screen bg-[#000000]">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
               <p className="text-lg">Loading.....</p>
             </div>
           }

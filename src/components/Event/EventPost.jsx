@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { X, UploadCloud, Image as ImageIcon, Calendar, MapPin } from "lucide-react";
+import {
+  X,
+  UploadCloud,
+  Image as ImageIcon,
+  Calendar,
+  MapPin,
+} from "lucide-react";
 import { toast } from "react-toastify";
 import { UserAuth } from "../../../supabase/AuthContext";
 import { supabase } from "../../../supabase/supabase_client";
@@ -141,7 +147,7 @@ const EventPost = () => {
   if (loading) {
     return (
       <div className="flex flex-col gap-3 justify-center items-center min-h-screen bg-[#212121]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
         <p className="text-lg text-gray-300">Loading...</p>
       </div>
     );
@@ -150,7 +156,7 @@ const EventPost = () => {
   return (
     <div className="max-w-7xl min-h-screen flex flex-col gap-10 justify-center items-center mx-auto bg-[#212121] py-10">
       <div className="w-full max-w-4xl p-6 sm:p-10 rounded-2xl shadow-xl border border-gray-700">
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#FFD700] mb-8 text-center">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-red-500 mb-8 text-center">
           Create Event Post
         </h1>
 
@@ -165,7 +171,7 @@ const EventPost = () => {
               {previews.length > 0 ? (
                 previews.map((preview, index) => (
                   <div key={index} className="relative group">
-                    <div className="h-40 w-full sm:w-64 rounded-lg overflow-hidden border-2 border-[#FFD700] bg-gray-800 flex items-center justify-center">
+                    <div className="h-40 w-full sm:w-64 rounded-lg overflow-hidden border-2 border-red-500 bg-gray-800 flex items-center justify-center">
                       <img
                         src={preview}
                         alt={`Preview ${index + 1}`}
@@ -188,9 +194,9 @@ const EventPost = () => {
               )}
             </div>
 
-            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-[#FFD700] rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700 transition">
+            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-red-500 rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700 transition">
               <div className="flex flex-col items-center justify-center p-4">
-                <UploadCloud className="w-8 h-8 mb-2 text-[#FFD700]" />
+                <UploadCloud className="w-8 h-8 mb-2 text-red-500" />
                 <p className="mb-1 text-sm sm:text-base text-gray-300 text-center">
                   Click to upload or drag and drop
                 </p>
@@ -220,7 +226,7 @@ const EventPost = () => {
             <input
               id="title"
               type="text"
-              className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-base sm:text-lg"
+              className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 text-base sm:text-lg"
               placeholder="Enter event title..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -234,7 +240,7 @@ const EventPost = () => {
             <div>
               <label
                 htmlFor="date"
-                className="block text-lg sm:text-xl font-medium text-gray-300 mb-3 flex items-center gap-2"
+                className=" text-lg sm:text-xl font-medium text-gray-300 mb-3 flex items-center gap-2"
               >
                 <Calendar className="h-5 w-5" />
                 Event Date & Time
@@ -242,7 +248,7 @@ const EventPost = () => {
               <input
                 id="date"
                 type="datetime-local"
-                className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-base sm:text-lg"
+                className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 text-base sm:text-lg"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
@@ -253,7 +259,7 @@ const EventPost = () => {
             <div>
               <label
                 htmlFor="location"
-                className="block text-lg sm:text-xl font-medium text-gray-300 mb-3 flex items-center gap-2"
+                className=" text-lg sm:text-xl font-medium text-gray-300 mb-3 flex items-center gap-2"
               >
                 <MapPin className="h-5 w-5" />
                 Event Location
@@ -261,7 +267,7 @@ const EventPost = () => {
               <input
                 id="location"
                 type="text"
-                className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-base sm:text-lg"
+                className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 text-base sm:text-lg"
                 placeholder="Enter event location..."
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
@@ -281,7 +287,7 @@ const EventPost = () => {
             <textarea
               id="description"
               rows={5}
-              className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-base sm:text-lg"
+              className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 text-base sm:text-lg"
               placeholder="Describe your event details..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -298,7 +304,7 @@ const EventPost = () => {
                 ${
                   isUploading || images.length === 0
                     ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                    : "bg-[#FFD700] hover:bg-[#e6c200] text-gray-900 hover:scale-105 transform transition"
+                    : "bg-red-500 hover:bg-red-600 text-gray-900 hover:scale-105 transform transition"
                 }`}
             >
               {isUploading ? (

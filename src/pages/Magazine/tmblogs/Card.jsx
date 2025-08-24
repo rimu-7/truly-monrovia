@@ -3,22 +3,28 @@ import React from "react";
 const Card = () => {
   return (
     <div className="py-20">
-      <div className="relative overflow-hidden group max-w-6xl mx-auto">
+      <div className="relative overflow-hidden group max-w-6xl mx-auto rounded-2xl shadow-lg">
         {/* Image */}
         <img
           src="card-1.png"
-          alt=""
-          className="group-hover:scale-110 duration-300 h-auto"
+          alt="Card Banner"
+          className="group-hover:scale-110 transform transition duration-700 ease-in-out h-auto w-full object-cover"
         />
-        <div className="absolute inset-0 flex flex-col justify-center w-full mx-auto items-center text-white bg-black/20  duration-300 p-4 text-center"></div>
+
+        {/* Overlay (darkens on hover) */}
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition duration-500"></div>
 
         {/* Text Overlay */}
-        <div className="absolute inset-0 flex flex-col justify-center w-[35%] mx-auto items-center text-white duration-300 p-4 text-center">
-          <p className="text-2xl md:text-4xl font-semibold mb-2">
+        <div className="absolute inset-0 flex flex-col justify-center items-center px-6 text-center text-white">
+          <p className="text-2xl md:text-4xl font-semibold mb-4 transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:translate-y-0 translate-y-2">
             Contrary to popular belief, Lorem Ipsum is not simply random text.
           </p>
-          <p className="text-xl md:text-2xl font-semibold mb-2">personal info</p>
-          <p className="text-lg md:text-xl">additional info</p>
+          <p className="text-lg md:text-2xl font-medium mb-2 opacity-80 group-hover:opacity-100 transition duration-700 delay-100">
+            Personal Info
+          </p>
+          <p className="text-md md:text-lg opacity-70 group-hover:opacity-100 transition duration-700 delay-200">
+            Additional Info
+          </p>
         </div>
       </div>
     </div>
@@ -26,4 +32,3 @@ const Card = () => {
 };
 
 export default Card;
-

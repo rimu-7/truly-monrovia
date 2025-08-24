@@ -86,14 +86,14 @@ const SubmitBSeen_Data = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
       </div>
     );
   }
 
   return (
     <div className="container px-2 bg-gray-800 mt-12 rounded mx-auto max-w-7xl py-8">
-      <h1 className="text-3xl text-center font-bold text-[#FFD700] mb-8">
+      <h1 className="text-3xl text-center font-bold text-red-500 mb-8">
         Submit&BSeen Data
       </h1>
 
@@ -102,7 +102,7 @@ const SubmitBSeen_Data = () => {
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full bg-gray-800 rounded-lg overflow-hidden">
-            <thead className="bg-gray-700 text-[#FFD700]">
+            <thead className="bg-gray-700 text-red-500">
               <tr>
                 <th className="px-2 py-3 text-left">ID</th>
                 <th className="px-2 py-3 text-left">Name</th>

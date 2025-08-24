@@ -3,11 +3,13 @@ import { toast } from "react-toastify";
 import { UploadCloud, X } from "lucide-react";
 import { supabase } from "../../supabase/supabase_client";
 import { UserAuth } from "../../supabase/AuthContext";
+import AboutGalleryList from "./AboutGalleryLists";
 
-const Library = () => {
+const AboutGalleryAdmin = () => {
   const { session } = UserAuth();
   const [images, setImages] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
+  const [position, setPosition] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [uploading, setUploading] = useState(false);
 
@@ -20,6 +22,7 @@ const Library = () => {
 
     setImages((prev) => [...prev, ...files]);
     setDescriptions((prev) => [...prev, ...files.map(() => "")]);
+    setPosition((prev) => [...prev, ...files.map(() => "")]);
     setPreviews((prev) => [
       ...prev,
       ...files.map((file) => URL.createObjectURL(file)),
@@ -27,25 +30,36 @@ const Library = () => {
   };
 
   const handleDescriptionChange = (index, value) => {
-    const desc = value.trim().split(" ");
-    if (desc.length > 3) return;
+    const words = value.trim().split(" ");
+    if (words.length > 3) return;
     const updated = [...descriptions];
     updated[index] = value;
     setDescriptions(updated);
   };
 
+  const handlePositionChange = (index, value) => {
+    const words = value.trim().split(" ");
+    if (words.length > 3) return;
+    const updated = [...position];
+    updated[index] = value;
+    setPosition(updated);
+  };
+
   const removeImage = (index) => {
     const newImages = [...images];
     const newDescriptions = [...descriptions];
+    const newPosition = [...position];
     const newPreviews = [...previews];
 
     newImages.splice(index, 1);
     newDescriptions.splice(index, 1);
+    newPosition.splice(index, 1);
     URL.revokeObjectURL(newPreviews[index]);
     newPreviews.splice(index, 1);
 
     setImages(newImages);
     setDescriptions(newDescriptions);
+    setPosition(newPosition);
     setPreviews(newPreviews);
   };
 
@@ -72,7 +86,10 @@ const Library = () => {
     if (images.length === 0) return toast.warning("Upload at least one image");
 
     const invalidDesc = descriptions.some((desc) => desc.trim().split(" ").length > 3);
-    if (invalidDesc) return toast.error("Each description must be max 3 words");
+    const invalidPosition = position.some((pos) => pos.trim().split(" ").length > 3);
+    if (invalidDesc || invalidPosition) {
+      return toast.error("Each description and position must be max 3 words");
+    }
 
     try {
       setUploading(true);
@@ -82,9 +99,10 @@ const Library = () => {
       const rows = imageUrls.map((url, idx) => ({
         image: url,
         description: descriptions[idx].trim(),
+        position: position[idx].trim(),
       }));
 
-      const { error } = await supabase.from("image-library").insert(rows);
+      const { error } = await supabase.from("aboutGallery").insert(rows);
       if (error) throw error;
 
       toast.success("Images uploaded successfully!");
@@ -92,6 +110,7 @@ const Library = () => {
       // Reset
       setImages([]);
       setDescriptions([]);
+      setPosition([]);
       setPreviews([]);
     } catch (err) {
       console.error(err);
@@ -104,7 +123,7 @@ const Library = () => {
   return (
     <div className="min-h-screen bg-[#212121] py-20 flex flex-col items-center px-4">
       <h1 className="text-4xl font-extrabold text-red-500 mb-8 text-center">
-        Upload Gallery Images
+        Upload About Gallery Images
       </h1>
 
       <form onSubmit={handleSubmit} className="w-full max-w-4xl space-y-10">
@@ -122,10 +141,20 @@ const Library = () => {
               <input
                 type="text"
                 maxLength={40}
-                placeholder="Max 3 words"
+                placeholder="Description (Max 3 words)"
                 value={descriptions[idx]}
                 onChange={(e) =>
                   handleDescriptionChange(idx, e.target.value)
+                }
+                className="mt-2 w-full px-3 py-2 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+              />
+              <input
+                type="text"
+                maxLength={40}
+                placeholder="Position (Max 3 words)"
+                value={position[idx]}
+                onChange={(e) =>
+                  handlePositionChange(idx, e.target.value)
                 }
                 className="mt-2 w-full px-3 py-2 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
               />
@@ -166,12 +195,13 @@ const Library = () => {
                 : "bg-red-500 hover:bg-red-600 text-gray-900 hover:scale-105"
               }`}
           >
-            {uploading ? "Uploading Library Images..." : "Upload Library Images"}
+            {uploading ? "Uploading About Gallery Images..." : "Upload About Gallery Images"}
           </button>
         </div>
       </form>
+      <AboutGalleryList/>
     </div>
   );
 };
 
-export default Library;
+export default AboutGalleryAdmin;

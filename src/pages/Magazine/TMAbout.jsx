@@ -78,9 +78,7 @@ const About = () => {
       <div className=" ">
         <div className=" flex flex-col items-center justify-center  p-8 rounded-lg">
           <div className=" flex flex-col items-center text-center mb-8">
-            <h1 className="text-5xl font-bold  mb-4">
-              TM Magazine
-            </h1>
+            <h1 className="text-5xl font-bold  mb-4">TM Magazine</h1>
             <p className="text-lg  max-w-3xl text-justify">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,
               labore. Dolorem dolores deserunt eligendi corrupti necessitatibus,
@@ -96,22 +94,13 @@ const About = () => {
             {/* Phone Numbers */}
             <div className="flex flex-wrap items-center justify-center gap-4">
               <FaPhoneAlt className="text-xl sm:text-2xl " />
-              <a
-                href="tel:+231886120438"
-                className="text-lg ]"
-              >
+              <a href="tel:+231886120438" className="text-lg ]">
                 +1234567890
               </a>
-              <a
-                href="tel:+231770277646"
-                className="text-lg "
-              >
+              <a href="tel:+231770277646" className="text-lg ">
                 +1234567890
               </a>
-              <a
-                href="tel:+231555267036"
-                className="text-lg  sm:text-lg"
-              >
+              <a href="tel:+231555267036" className="text-lg  sm:text-lg">
                 +1234567890
               </a>
             </div>
@@ -132,7 +121,7 @@ const About = () => {
                 animate="animate"
               >
                 <Link to="https://www.facebook.com">
-                  <FaFacebook className="text-4xl sm:text-5xl p-3 text-white rounded-full bg-blue-600 hover:bg-blue-700 hover:scale-110" />
+                  <FaFacebook className="text-4xl sm:text-5xl p-3 text-white rounded-full bg-red-600 hover:bg-red-700 hover:scale-110" />
                 </Link>
               </motion.div>
 
@@ -142,7 +131,7 @@ const About = () => {
                 animate="animate"
               >
                 <Link to="https://www.instagram.com">
-                  <FaInstagram className="text-4xl sm:text-5xl text-white p-3 rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 hover:scale-110" />
+                  <FaInstagram className="text-4xl sm:text-5xl text-white p-3 rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-red-500 hover:scale-110" />
                 </Link>
               </motion.div>
 
@@ -178,8 +167,10 @@ const About = () => {
             </div>
           </div>
         </div>
-        {/* <div className="mt-10 p-6 bg-gray-800 rounded-lg shadow-lg">
-          <h2 className="text-3xl font-bold mb-6 text-center text-[#FDD700]">Contact Us</h2>
+        <div className="mt-10 p-6 bg-gray-800 rounded-lg shadow-lg">
+          <h2 className="text-3xl font-bold mb-6 text-center text-red-500">
+            Contact Us
+          </h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -194,7 +185,7 @@ const About = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 rounded bg-gray-700   focus:ring-2 focus:ring-[#FDD700] focus:outline-none"
+                className="w-full px-4 py-2 rounded bg-gray-700   focus:ring-2 focus:ring-red-500 focus:outline-none"
               />
             </div>
 
@@ -210,7 +201,7 @@ const About = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 rounded bg-gray-700 focus:ring-2 focus:ring-[#FDD700] focus:outline-none"
+                className="w-full px-4 py-2 rounded bg-gray-700 focus:ring-2 focus:ring-red-500 focus:outline-none"
               />
             </div>
 
@@ -229,7 +220,7 @@ const About = () => {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 rounded bg-gray-700 focus:ring-2 focus:ring-[#FDD700] focus:outline-none"
+                className="w-full px-4 py-2 rounded bg-gray-700 focus:ring-2 focus:ring-red-500 focus:outline-none"
               ></textarea>
             </div>
 
@@ -238,14 +229,14 @@ const About = () => {
               disabled={isSubmitting}
               className={`w-full py-3 px-4 rounded-md font-medium text-black cursor-pointer ${
                 isSubmitting
-                  ? "bg-[#FDD700] text-gray-400 cursor-not-allowed"
-                  : "bg-[#FDD700] hover:bg-yellow-400"
+                  ? "bg-red-500 text-gray-400 cursor-not-allowed"
+                  : "bg-red-500 hover:bg-red-600"
               } transition-colors`}
             >
               {isSubmitting ? "Sending..." : "Send Message"}
             </motion.button>
           </form>
-        </div> */}
+        </div>
       </div>
     </div>
   );

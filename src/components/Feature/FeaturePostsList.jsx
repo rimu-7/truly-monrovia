@@ -136,7 +136,7 @@ const FeaturePostsList = () => {
     if (loading) {
         return (
             <div className="flex flex-col gap-3 justify-center items-center min-h-screen bg-[#212121]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
                 <p className="text-lg text-gray-300">Loading...</p>
             </div>
         );
@@ -144,7 +144,7 @@ const FeaturePostsList = () => {
 
     return (
         <div className="max-w-7xl min-h-screen mx-auto py-12 px-4 sm:px-6 lg:px-8 bg-[#212121]">
-            <h1 className="text-4xl font-extrabold text-[#FFD700] mb-8 text-center">
+            <h1 className="text-4xl font-extrabold text-red-500 mb-8 text-center">
                 Feature Posts Management
             </h1>
 
@@ -175,18 +175,18 @@ const FeaturePostsList = () => {
                                             type="text"
                                             value={editTitle}
                                             onChange={(e) => setEditTitle(e.target.value)}
-                                            className="w-full px-3 py-2 mb-2 bg-gray-700 border border-[#FFD700] rounded text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#FFD700]"
+                                            className="w-full px-3 py-2 mb-2 bg-gray-700 border border-red-500 rounded text-gray-200 focus:outline-none focus:ring-1 focus:ring-red-500"
                                         />
                                         <textarea
                                             value={editDescription}
                                             onChange={(e) => setEditDescription(e.target.value)}
                                             rows={3}
-                                            className="w-full px-3 py-2 mb-3 bg-gray-700 border border-[#FFD700] rounded text-gray-200 focus:outline-none focus:ring-1 focus:ring-[#FFD700]"
+                                            className="w-full px-3 py-2 mb-3 bg-gray-700 border border-red-500 rounded text-gray-200 focus:outline-none focus:ring-1 focus:ring-red-500"
                                         />
                                     </>
                                 ) : (
                                     <>
-                                        <h3 className="text-xl font-bold text-[#FFD700] mb-2">
+                                        <h3 className="text-xl font-bold text-red-500 mb-2">
                                             {post.title}
                                         </h3>
                                         {/* <p className="text-gray-300 mb-4">{post.description}</p> */}
@@ -215,7 +215,7 @@ const FeaturePostsList = () => {
                                             <button
                                                 onClick={() => handleUpdate(post.id)}
                                                 disabled={isUpdating}
-                                                className="p-2 bg-[#FFD700] rounded-full hover:bg-[#e6c200] transition disabled:opacity-50"
+                                                className="p-2 bg-red-500 rounded-full hover:bg-red-600 transition disabled:opacity-50"
                                             >
                                                 {isUpdating ? (
                                                     <Loader2 className="h-4 w-4 text-gray-900 animate-spin" />

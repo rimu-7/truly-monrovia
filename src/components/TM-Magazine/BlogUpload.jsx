@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { UploadCloud } from "lucide-react";
+import { UploadCloud, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { UserAuth } from "../../../supabase/AuthContext";
 import { supabase } from "../../../supabase/supabase_client";
+import AdminBlogManager from "./AdminBlogManager";
 
 const BlogUpload = () => {
   const { session } = UserAuth();
@@ -11,33 +12,20 @@ const BlogUpload = () => {
   const [loading, setLoading] = useState(true);
   const [adminId, setAdminId] = useState(null);
   const [category, setCategory] = useState("");
-
   const [title, setTitle] = useState("");
-  const [desc1, setDesc1] = useState("");
-  const [desc2, setDesc2] = useState("");
-  const [desc3, setDesc3] = useState("");
-  const [desc4, setDesc4] = useState("");
-  const [desc5, setDesc5] = useState("");
+  const [descriptions, setDescriptions] = useState(["", "", "", "", ""]);
+  const [images, setImages] = useState([]);
+  const [previews, setPreviews] = useState([]);
+  const [videos, setVideos] = useState(["", "", ""]);
+  const [uploading, setUploading] = useState(false);
 
-  const [image1, setImage1] = useState("");
-  const [image2, setImage2] = useState("");
-  const [image3, setImage3] = useState("");
-  const [image4, setImage4] = useState("");
-  const [image5, setImage5] = useState("");
-
-  const [video1, setVideo1] = useState("");
-  const [video2, setVideo2] = useState("");
-  const [video3, setVideo3] = useState("");
-
-  const [isUploading, setIsUploading] = useState(false);
-
+  // Verify admin
   useEffect(() => {
     const fetchAdminId = async () => {
       if (!session) {
         navigate("/login");
         return toast.error("Only admin can access this");
       }
-
       try {
         const { data, error } = await supabase
           .from("admin")
@@ -45,78 +33,106 @@ const BlogUpload = () => {
           .eq("email", session.user.email)
           .single();
 
-        if (error || !data?.new_id) {
-          throw new Error("Admin not found");
-        }
+        if (error || !data?.new_id) throw new Error("Admin not found");
         setAdminId(data.new_id);
-      } catch (error) {
+      } catch (err) {
         toast.error("Failed to verify admin access");
-        console.log(error);
-        
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchAdminId();
   }, [session, navigate]);
 
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length + images.length > 5) {
+      toast.warning("Max 5 images allowed");
+      return;
+    }
+    setImages((prev) => [...prev, ...files]);
+    setPreviews((prev) => [...prev, ...files.map((f) => URL.createObjectURL(f))]);
+  };
+
+  const removeImage = (index) => {
+    const newImages = [...images];
+    const newPreviews = [...previews];
+    newImages.splice(index, 1);
+    URL.revokeObjectURL(newPreviews[index]);
+    newPreviews.splice(index, 1);
+    setImages(newImages);
+    setPreviews(newPreviews);
+  };
+
+  const uploadToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "trulymonrovia");
+
+    const res = await fetch("https://api.cloudinary.com/v1_1/ddssf6cm6/image/upload", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+    return data.secure_url;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsUploading(true);
+    if (!session) return toast.error("Only admin can upload");
+    if (!title || !category) return toast.error("Title & Category required");
 
     try {
+      setUploading(true);
+      let imageUrls = [];
+      if (images.length > 0) {
+        imageUrls = await Promise.all(images.map(uploadToCloudinary));
+      }
+
       const { error } = await supabase.from("tmblog").insert([
         {
           new_id: adminId,
           title,
           category,
-          description1: desc1,
-          description2: desc2,
-          description3: desc3,
-          description4: desc4,
-          description5: desc5,
-          image1,
-          image2,
-          image3,
-          image4,
-          image5,
-          video1,
-          video2,
-          video3,
+          description1: descriptions[0],
+          description2: descriptions[1],
+          description3: descriptions[2],
+          description4: descriptions[3],
+          description5: descriptions[4],
+          image1: imageUrls[0] || null,
+          image2: imageUrls[1] || null,
+          image3: imageUrls[2] || null,
+          image4: imageUrls[3] || null,
+          image5: imageUrls[4] || null,
+          video1: videos[0] || null,
+          video2: videos[1] || null,
+          video3: videos[2] || null,
         },
       ]);
 
       if (error) throw error;
-
       toast.success("Blog uploaded successfully!");
+
+      // Reset
       setTitle("");
       setCategory("");
-      setDesc1("");
-      setDesc2("");
-      setDesc3("");
-      setDesc4("");
-      setDesc5("");
-      setImage1("");
-      setImage2("");
-      setImage3("");
-      setImage4("");
-      setImage5("");
-      setVideo1("");
-      setVideo2("");
-      setVideo3("");
-    } catch (error) {
-      toast.error(error.message || "Failed to upload blog");
-      console.error("Supabase error:", error);
+      setDescriptions(["", "", "", "", ""]);
+      setImages([]);
+      setPreviews([]);
+      setVideos(["", "", ""]);
+    } catch (err) {
+      console.error(err);
+      toast.error("Upload failed");
     } finally {
-      setIsUploading(false);
+      setUploading(false);
     }
   };
 
   if (loading) {
     return (
       <div className="flex flex-col gap-3 justify-center items-center min-h-screen bg-[#212121]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
         <p className="text-lg text-gray-300">Loading...</p>
       </div>
     );
@@ -125,32 +141,29 @@ const BlogUpload = () => {
   return (
     <div className="max-w-7xl min-h-screen flex flex-col gap-10 py-20 justify-center items-center mx-auto bg-[#212121]">
       <div className="w-full max-w-4xl p-10 rounded-2xl shadow-xl border border-gray-700">
-        <h1 className="text-4xl font-extrabold text-[#FFD700] mb-8 text-center">
+        <h1 className="text-4xl font-extrabold text-red-500 mb-8 text-center">
           Create Blog Post
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Title */}
           <div>
-            <label className="block text-xl font-medium text-gray-300 mb-4">
-              Title
-            </label>
+            <label className="block text-xl font-medium text-gray-300 mb-4">Title</label>
             <input
               type="text"
-              className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700]"
+              className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500"
               placeholder="Enter blog title..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
           </div>
+
           {/* Category */}
           <div>
-            <label className="block text-xl font-medium text-gray-300 mb-4">
-              Category
-            </label>
+            <label className="block text-xl font-medium text-gray-300 mb-4">Category</label>
             <select
-              className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700]"
+              className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               required
@@ -174,65 +187,76 @@ const BlogUpload = () => {
           </div>
 
           {/* Descriptions */}
-          {[
-            ["Description 1", desc1, setDesc1],
-            ["Description 2", desc2, setDesc2],
-            ["Description 3", desc3, setDesc3],
-            ["Description 4", desc3, setDesc4],
-            ["Description 5", desc3, setDesc5],
-          ].map(([label, val, setter], i) => (
+          {descriptions.map((desc, i) => (
             <div key={i}>
               <label className="block text-xl font-medium text-gray-300 mb-4">
-                {label}
+                Description {i + 1}
               </label>
               <textarea
                 rows={3}
-                className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700]"
-                placeholder={`Write ${label.toLowerCase()}...`}
-                value={val}
-                onChange={(e) => setter(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500"
+                placeholder={`Write description ${i + 1}...`}
+                value={desc}
+                onChange={(e) => {
+                  const newDescs = [...descriptions];
+                  newDescs[i] = e.target.value;
+                  setDescriptions(newDescs);
+                }}
               />
             </div>
           ))}
 
-          {/* Images */}
-          {[
-            ["Image 1", image1, setImage1],
-            ["Image 2", image2, setImage2],
-            ["Image 3", image3, setImage3],
-            ["Image 4", image4, setImage4],
-            ["Image 5", image5, setImage5],
-          ].map(([label, val, setter], i) => (
-            <div key={i}>
-              <label className="block text-xl font-medium text-gray-300 mb-4">
-                {label} (URL)
-              </label>
-              <input
-                type="text"
-                className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700]"
-                placeholder="Paste image URL..."
-                value={val}
-                onChange={(e) => setter(e.target.value)}
-              />
+          {/* Image Upload */}
+          <div>
+            <label className="block text-xl font-medium text-gray-300 mb-4">Upload Images</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {previews.map((preview, idx) => (
+                <div key={idx} className="relative">
+                  <div className="h-60 rounded-xl overflow-hidden border-2 border-red-500 shadow-lg">
+                    <img src={preview} alt="preview" className="w-full h-full object-cover" />
+                  </div>
+                  <button
+                    type="button"
+                    className="absolute top-2 right-2 bg-red-600 rounded-full p-2 hover:bg-red-700 transition duration-200"
+                    onClick={() => removeImage(idx)}
+                  >
+                    <X className="text-white h-6 w-6" />
+                  </button>
+                </div>
+              ))}
             </div>
-          ))}
 
-          {/* Videos */}
-          {[
-            ["Video 1", video1, setVideo1],
-            ["Video 2", video2, setVideo2],
-            ["Video 3", video3, setVideo3],
-          ].map(([label, val, setter], i) => (
+            <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-red-500 rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700 transition mt-4">
+              <UploadCloud className="w-10 h-10 mb-3 text-red-500" />
+              <p className="mb-1 text-lg text-gray-300">Click or Drag to Upload</p>
+              <p className="text-sm text-gray-400">Max 5 images</p>
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+                disabled={images.length >= 5}
+              />
+            </label>
+          </div>
+
+          {/* Videos (URLs) */}
+          {videos.map((vid, i) => (
             <div key={i}>
               <label className="block text-xl font-medium text-gray-300 mb-4">
-                {label} (URL)
+                Video {i + 1} (URL)
               </label>
               <input
                 type="text"
-                className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700]"
+                className="w-full px-4 py-3 bg-gray-800 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500"
                 placeholder="Paste video URL..."
-                value={val}
-                onChange={(e) => setter(e.target.value)}
+                value={vid}
+                onChange={(e) => {
+                  const newVids = [...videos];
+                  newVids[i] = e.target.value;
+                  setVideos(newVids);
+                }}
               />
             </div>
           ))}
@@ -241,15 +265,12 @@ const BlogUpload = () => {
           <div className="flex justify-center pt-4">
             <button
               type="submit"
-              disabled={isUploading}
+              disabled={uploading}
               className={`px-8 py-4 text-xl font-bold rounded-full transition-colors flex items-center gap-2
-                ${
-                  isUploading
-                    ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                    : "bg-[#FFD700] hover:bg-[#e6c200] text-gray-900 hover:scale-105 transform transition"
-                }`}
+                ${uploading ? "bg-gray-600 text-gray-400 cursor-not-allowed" : "bg-red-500 hover:bg-red-600 text-gray-900 hover:scale-105 transform transition"}
+              `}
             >
-              {isUploading ? (
+              {uploading ? (
                 <>
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
                   Uploading...
@@ -264,6 +285,7 @@ const BlogUpload = () => {
           </div>
         </form>
       </div>
+      <AdminBlogManager/>
     </div>
   );
 };

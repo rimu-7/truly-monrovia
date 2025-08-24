@@ -29,7 +29,7 @@ const LiberiaAbout = () => {
 
         {/* Second Column - The New Liberia */}
         <div className="w-full lg:w-1/2 lg:pl-4">
-          <div className="h-full p-8 md:p-12 bg-orange-200 rounded-xl  transition-all duration-300 transform  flex flex-col justify-between">
+          <div className="h-full p-8 md:p-12 bg-red-200 rounded-xl  transition-all duration-300 transform  flex flex-col justify-between">
             <div>
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 The New <span className="text-white">Liberia</span>

@@ -65,7 +65,7 @@ const ExploreView = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
       </div>
     );
   }
@@ -74,7 +74,7 @@ const ExploreView = () => {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <p className="text-gray-600">Post not found</p>
-        <Link to="/explore" className="ml-4 text-yellow-300 hover:text-yellow-400">
+        <Link to="/explore" className="ml-4 text-red-500 hover:text-red-600">
           Back to Explore
         </Link>
       </div>
@@ -90,7 +90,7 @@ const ExploreView = () => {
       <div className="pt-6">
         <Link
           to="/explore"
-          className="flex items-center gap-2 text-yellow-300 hover:text-yellow-400 cursor-pointer transition-colors"
+          className="flex items-center gap-2 text-red-500 hover:text-red-600 cursor-pointer transition-colors"
         >
           <ArrowLeft size={20} />
           <span>Back to explore</span>

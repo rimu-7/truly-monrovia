@@ -37,7 +37,7 @@ const EventView = () => {
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
             </div>
         );
     }
@@ -55,7 +55,7 @@ const EventView = () => {
             {/* Back Button */}
             <button
                 onClick={() => navigate(-1)}
-                className="flex items-center gap-2 text-yellow-300 hover:text-yellow-400 cursor-pointer transition-colors mb-8"
+                className="flex items-center gap-2 text-red-500 hover:text-red-600 cursor-pointer transition-colors mb-8"
             >
                 <ArrowLeft size={20} />
                 <span>Back to events</span>
@@ -94,10 +94,10 @@ const EventView = () => {
 
                         <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-white">{post.title}</h1>
                         <div className=" flex justify-between">
-                            <p className="text flex gap-2 text-yellow-200">
+                            <p className="text flex gap-2 text-red-500">
                                <Calendar/> Event Date: {post.date}
                             </p>
-                            <p className="text flex gap-2 text-yellow-200">
+                            <p className="text flex gap-2 text-red-500">
                               <MapPin/>  Event Location: {post.location}
                             </p>
                         </div>

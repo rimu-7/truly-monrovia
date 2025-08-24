@@ -22,13 +22,12 @@ const LiberiaGrid = () => {
           .limit(4);
 
         if (error) throw error;
-
         setCateItems(data || []);
       } catch (err) {
         console.error("Error fetching cate items:", err.message);
         setError("Failed to load category images");
       } finally {
-        setIsLoading(false);
+        setTimeout(() => setIsLoading(false), 700); // smooth delay
       }
     };
 
@@ -45,12 +44,24 @@ const LiberiaGrid = () => {
     });
   }
 
-  // Loading state
+  // Loading state with skeleton
   if (isLoading) {
     return (
-      <div className="flex flex-col gap-3 justify-center items-center min-h-screen bg-[#212121]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
-        <p className="text-lg text-white">Loading.....</p>
+      <div className="mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <Skeleton height={400} className="rounded-2xl" />
+          </div>
+          <div className="grid grid-cols-2 gap-6">
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton
+                key={i}
+                height={200}
+                className="rounded-2xl"
+              />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -65,7 +76,7 @@ const LiberiaGrid = () => {
   }
 
   return (
-    <div className="mx-auto px-4 bg-gray-50 sm:px-6 lg:px-8 py-12">
+    <div className="mx-auto px-4 bg-gray-50 sm:px-6 lg:px-8 py-12 transition-opacity duration-700 animate-fade-in">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Featured TM */}
         <FeaturedTM className="lg:col-span-2" />
@@ -74,10 +85,9 @@ const LiberiaGrid = () => {
         <div className="grid bg-white rounded-2xl grid-cols-2 p-4 gap-6">
           {paddedCateItems.map((item) =>
             item.image ? (
-              <div className="grid bg-white ">
+              <div key={item.id} className="grid bg-white ">
                 <Link
                   to={`/tm?category=${item.category.toLowerCase()}`}
-                  key={item.id}
                   className="group relative h-full min-h-[200px] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500"
                 >
                   <img
@@ -95,7 +105,7 @@ const LiberiaGrid = () => {
             ) : (
               <div
                 key={item.id}
-                className="min-h-[200px] rounded-2xl text-black flex justify-center items-center  gap-2 bg-gray-200 opacity-40"
+                className="min-h-[200px] rounded-2xl text-black flex justify-center items-center gap-2 bg-gray-200 opacity-40"
               >
                 empty <PiEmpty />
               </div>

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ArrowRight, Calendar, MapPin } from "lucide-react";
 
-const Events = () => {
+const Events2 = () => {
   const [features, setFeatures] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -54,8 +54,8 @@ const Events = () => {
   }
 
   return (
-    <section className="max-w-7xl min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-36">
-      <div className="text-center mb-12">
+    <section className=" mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="mb-8">
         <h2 className="text-3xl font-bold sm:text-4xl">Event Posts</h2>
       </div>
 
@@ -63,9 +63,9 @@ const Events = () => {
         {features.map((post, index) => (
           <article
             key={index}
-            className="border-2 border-red-500 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
+            className="  overflow-hidden transition-all duration-300 hover:shadow-lg"
           >
-            <div className="h-48 overflow-hidden">
+            <div className="h-96 overflow-hidden">
               <img
                 src={post.image}
                 alt={post.title || "Featured post"}
@@ -103,7 +103,7 @@ const Events = () => {
               <div className=" flex justify-center items-center">
                 <button
                   onClick={() => handleReadMore(post.id)}
-                  className=" w-full bg-white hover:bg-red-500 cursor-pointer text-black px-3 py-2 rounded-md transition-transform duration-300"
+                  className=" w-full bg-white hover:bg-red-500 cursor-pointer text-black px-3 py-2 transition-transform duration-300"
                 >
                   <span className="inline-flex transition-transform items-center justify-center duration-300 hover:translate-x-3 ">
                     Read more
@@ -119,4 +119,4 @@ const Events = () => {
   );
 };
 
-export default Events;
+export default Events2;

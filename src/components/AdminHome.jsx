@@ -47,21 +47,21 @@ const Home = () => {
 
   return (
     <div className="max-w-7xl min-h-screen flex justify-center items-center flex-col mx-auto text-center bg-[#212121]">
-      <div className="w-full h-full p-10 rounded-2xl shadow-xl border border-gray-700">
-        <h1 className="text-4xl font-extrabold text-[#FFD700] mb-4">
+      <div className="w-full h-full p-10 border-gray-900">
+        <h1 className="text-4xl font-extrabold text-red-500 mb-4">
           👋 Welcome, Admin!
         </h1>
         {adminInfo && (
           <p className="mb-6 text-gray-300 text-lg">
             Signed in as{" "}
-            <span className="text-[#FFD700] font-semibold">
+            <span className="text-red-500 font-semibold">
               {adminInfo.name}
             </span>
           </p>
         )}
         <button
           onClick={handleLogout}
-          className="bg-red-500 text-center cursor-pointer hover:bg-red-600 duration-300 border-[#FFD700] border-2 hover:border-[#212121] text-2xl text-white font-semibold py-4 px-10 rounded-full"
+          className="bg-red-500 text-center cursor-pointer hover:bg-red-600 duration-300 border-red-500 border-2 hover:border-[#212121] text-2xl text-white font-semibold py-4 px-10 rounded-full"
         >
           <div className="flex justify-center items-center gap-2">
             <p>Logout</p> <LogOut />

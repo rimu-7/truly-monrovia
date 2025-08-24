@@ -79,7 +79,7 @@ const FeaturedTMAdmin = () => {
 
   return (
     <div className="p-6  min-h-full border border-gray-700 rounded-2xl text-white max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold text-yellow-400 mb-6">
+      <h1 className="text-3xl font-bold text-red-500 mb-6">
         Select up to 4 Featured Posts
       </h1>
 
@@ -90,7 +90,7 @@ const FeaturedTMAdmin = () => {
             onClick={() => togglePost(post.id)}
             className={`cursor-pointer border rounded-lg p-4 transition select-none ${
               selectedIds.includes(post.id)
-                ? "border-yellow-300 bg-green-700 text-black"
+                ? "border-red-500 bg-gray-800 "
                 : "border-gray-700 bg-gray-800"
             }`}
           >
@@ -105,7 +105,7 @@ const FeaturedTMAdmin = () => {
       <button
         onClick={saveFeaturedPosts}
         disabled={saving}
-        className="mt-6 px-6 py-4 text-xl bg-yellow-300 w-full cursor-pointer hover:bg-yellow-400 text-black font-bold rounded-lg"
+        className="mt-6 px-6 py-4 text-xl bg-red-500 w-full cursor-pointer hover:bg-red-600 text-black font-bold rounded-lg"
       >
         {saving ? "Saving..." : "Save Featured Posts"}
       </button>

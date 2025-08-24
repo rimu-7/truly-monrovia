@@ -115,7 +115,7 @@ const Musics = () => {
           <input
             type="text"
             placeholder="Search posts by title, description, or category..."
-            className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+            className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -127,7 +127,7 @@ const Musics = () => {
         {filteredPosts.map((post) => (
           <article
             key={post.id}
-            className="border-2 border-yellow-300 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
+            className="border-2 border-red-500 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
           >
             <div className="relative h-48 overflow-hidden">
               <img
@@ -136,7 +136,7 @@ const Musics = () => {
                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 loading="lazy"
               />
-              <div className="absolute top-2 left-2 bg-yellow-400 text-gray-900 px-2 py-1 rounded-md text-sm font-bold">
+              <div className="absolute top-2 left-2 bg-red-500 text-gray-900 px-2 py-1 rounded-md text-sm font-bold">
                 {post.category}
               </div>
             </div>
@@ -169,7 +169,7 @@ const Musics = () => {
               <div className="flex mt-2 justify-center items-center">
                 <button
                   onClick={() => handleReadMore(post.id)}
-                  className="w-full bg-white hover:bg-yellow-400 text-black px-3 py-2 rounded-md transition-transform duration-300 cursor-pointer"
+                  className="w-full bg-white hover:bg-red-600 text-black px-3 py-2 rounded-md transition-transform duration-300 cursor-pointer"
                 >
                   <span className="inline-flex items-center justify-center gap-2 duration-300 hover:translate-x-3">
                     Read more <ArrowRight />

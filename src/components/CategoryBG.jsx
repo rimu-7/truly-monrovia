@@ -82,7 +82,7 @@ const CategoryBG = () => {
 
   return (
     <div className="min-h-screen bg-[#212121] py-12 px-4">
-      <h1 className="text-4xl font-extrabold text-[#FFD700] mb-10 text-center">
+      <h1 className="text-4xl font-extrabold text-red-500 mb-10 text-center">
         Update Category Images
       </h1>
 
@@ -90,7 +90,7 @@ const CategoryBG = () => {
         {cateItems.map((item, index) => (
           <div
             key={item.id}
-            className="rounded-xl border-2 border-[#FFD700] pb-4 bg-gray-800 text-white text-center shadow-lg"
+            className="rounded-xl border-2 border-red-500 pb-4 bg-gray-800 text-white text-center shadow-lg"
           >
             {/* Image with fallback */}
             {item.image ? (
@@ -129,7 +129,7 @@ const CategoryBG = () => {
               className={`px-4 py-2 rounded-lg cursor-pointer font-bold transition-all ${
                 updatingId === item.id
                   ? "bg-gray-600 text-gray-300 cursor-not-allowed"
-                  : "bg-[#FFD700] text-black hover:bg-yellow-400 hover:scale-105"
+                  : "bg-red-500 text-black hover:bg-red-500 hover:scale-105"
               }`}
             >
               {updatingId === item.id ? "Updating..." : "Change Image"}

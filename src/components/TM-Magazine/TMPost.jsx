@@ -151,7 +151,7 @@ const TMPost = () => {
   if (loading) {
     return (
       <div className="flex flex-col gap-3 justify-center items-center min-h-screen bg-[#212121]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#FFD700]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
         <p className="text-lg text-gray-300">Loading...</p>
       </div>
     );
@@ -160,7 +160,7 @@ const TMPost = () => {
   return (
     <div className="max-w-7xl min-h-full  flex flex-col gap-10 justify-center items-center mx-auto bg-[#212121]">
       <div className="w-full max-w-4xl p-10 rounded-2xl shadow-xl border border-gray-700">
-        <h1 className="text-4xl font-extrabold text-[#FFD700] mb-8 text-center">
+        <h1 className="text-4xl font-extrabold text-red-500 mb-8 text-center">
           Create TM Magazine Post
         </h1>
 
@@ -175,7 +175,7 @@ const TMPost = () => {
               {previews.length > 0 ? (
                 previews.map((preview, index) => (
                   <div key={index} className="relative group">
-                    <div className="h-40 w-40 rounded-lg overflow-hidden border-2 border-[#FFD700] bg-gray-800 flex items-center justify-center">
+                    <div className="h-40 w-40 rounded-lg overflow-hidden border-2 border-red-500 bg-gray-800 flex items-center justify-center">
                       <img
                         src={preview}
                         alt={`Preview ${index + 1}`}
@@ -198,9 +198,9 @@ const TMPost = () => {
               )}
             </div>
 
-            <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-[#FFD700] rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700 transition">
+            <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-red-500 rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700 transition">
               <div className="flex flex-col items-center justify-center p-5">
-                <UploadCloud className="w-10 h-10 mb-3 text-[#FFD700]" />
+                <UploadCloud className="w-10 h-10 mb-3 text-red-500" />
                 <p className="mb-2 text-lg text-gray-300">
                   Click to upload or drag and drop
                 </p>
@@ -230,7 +230,7 @@ const TMPost = () => {
             <input
               id="title"
               type="text"
-              className="w-full px-4 py-3 bg-gray-800  rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
+              className="w-full px-4 py-3 bg-gray-800  rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 text-lg"
               placeholder="Write a title for your post..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -248,7 +248,7 @@ const TMPost = () => {
             </label>
             <select
               id="category"
-              className="w-full px-4 py-3 bg-gray-800  rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
+              className="w-full px-4 py-3 bg-gray-800  rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 text-lg"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               required
@@ -272,7 +272,7 @@ const TMPost = () => {
             <textarea
               id="description"
               rows={5}
-              className="w-full px-4 py-3 bg-gray-800  rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FFD700] text-lg"
+              className="w-full px-4 py-3 bg-gray-800  rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 text-lg"
               placeholder="Write a compelling description about these images..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -288,7 +288,7 @@ const TMPost = () => {
               className={`px-8 py-4 text-xl font-bold rounded-full transition-colors flex items-center gap-2
                 ${isUploading || images.length === 0
                   ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                  : "bg-[#FFD700] hover:bg-[#e6c200] text-gray-900 hover:scale-105 transform transition"
+                  : "bg-red-500 hover:bg-red-600 text-gray-900 hover:scale-105 transform transition"
                 }`}
             >
               {isUploading ? (

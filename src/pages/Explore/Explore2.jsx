@@ -16,7 +16,7 @@ const categories = [
   { id: "others", name: "Others" },
 ];
 
-const Explore = () => {
+const Explore2 = () => {
   const [explore, setExplore] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,7 +42,8 @@ const Explore = () => {
         const { data, error } = await supabase
           .from("explore")
           .select("*")
-          .order("created_at", { ascending: false });
+          .order("created_at", { ascending: false })
+          .limit(6); // ✅ fetch only 6 latest
 
         if (error) throw error;
 
@@ -68,125 +69,33 @@ const Explore = () => {
       results = results.filter((post) => post.category === selectedCategory);
     }
 
-    if (searchQuery.trim() !== "") {
-      const q = searchQuery.toLowerCase();
-      results = results.filter(
-        (post) =>
-          post.title?.toLowerCase().includes(q) ||
-          post.description?.toLowerCase().includes(q) ||
-          post.category?.toLowerCase().includes(q)
-      );
-    }
-
     setFilteredPosts(results);
-  }, [selectedCategory, searchQuery, explore]);
+  }, [selectedCategory, explore]);
 
   const handleReadMore = (postId) => {
     navigate(`/explores/${postId}`);
   };
 
   return (
-    <section className="max-w-7xl min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-36  text-white">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold sm:text-4xl text-red-500">
-          Explore Posts
-        </h2>
-        <p className="mt-4 text-xl text-gray-400">
-          Discover our latest content
-        </p>
-      </div>
-
-      {/* Search & Filters */}
-      <div className="mb-8 space-y-4 max-w-2xl mx-auto">
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-gray-400" />
-          </div>
-          <input
-            type="text"
-            placeholder="Search posts by title, description, or category..."
-            className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-900 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-2">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
-                selectedCategory === cat.id
-                  ? "bg-red-500 text-gray-300 shadow-md"
-                  : "bg-gray-900 text-gray-300 hover:bg-red-600 hover:text-black"
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </div>
-      </div>
-
+    <section className=" mx-auto px-4 sm:px-6 lg:px-8 py-10  text-white">
+        <h1 className="text-4xl font-bold mb-8">Latest Blogs</h1>
       {/* Posts Grid or Skeleton */}
-      {loading ? (
+      {filteredPosts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[...Array(6)].map((_, idx) => (
-            <div
-              key={idx}
-              className="border border-gray-700  rounded-xl p-4 shadow-inner animate-pulse"
-            >
-              <Skeleton
-                height={180}
-                baseColor="#2d3748"
-                highlightColor="#4a5568"
-                className="rounded-lg"
-              />
-              <div className="py-3 space-y-2">
-                <Skeleton
-                  width="30%"
-                  height={20}
-                  baseColor="#2d3748"
-                  highlightColor="#4a5568"
-                  className="rounded-md"
-                />
-                <Skeleton
-                  height={24}
-                  baseColor="#2d3748"
-                  highlightColor="#4a5568"
-                  className="rounded-md"
-                />
-                <Skeleton
-                  count={2}
-                  baseColor="#2d3748"
-                  highlightColor="#4a5568"
-                  className="rounded-md"
-                />
-              </div>
-              <Skeleton
-                height={36}
-                baseColor="#2d3748"
-                highlightColor="#4a5568"
-                className="rounded-md"
-              />
-            </div>
-          ))}
-        </div>
-      ) : filteredPosts.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
           {filteredPosts.map((post) => (
             <article
               key={post.id}
-              className="bg-gray-900 border border-red-500 rounded-xl shadow-md overflow-hidden hover:shadow-red-500 transition-all duration-300"
+              className="overflow-hidden hover:shadow-red-500 transition-all duration-300"
             >
-              <div className="relative h-48 overflow-hidden">
+              <div className="relative h-96 overflow-hidden">
                 <img
                   src={post.image1}
                   alt={post.title || "Featured post"}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute top-2 left-2 bg-red-500 text-gray-900 px-2 py-1 rounded-md text-sm font-bold">
+                <div className="absolute top-2 left-2 bg-red-400 text-gray-900 px-2 py-1 rounded-md text-sm font-bold">
                   {post.category}
                 </div>
               </div>
@@ -224,9 +133,9 @@ const Explore = () => {
                 <div className="flex mt-4 justify-center items-center">
                   <button
                     onClick={() => handleReadMore(post.id)}
-                    className="w-full bg-gray-100 hover:bg-red-500 text-black px-3 py-2 rounded-md shadow hover:shadow-lg transition duration-300"
+                    className="w-full bg-gray-100 hover:bg-red-500 text-black px-3 py-2 shadow hover:shadow-lg transition duration-300"
                   >
-                    <span className="inline-flex items-center gap-2">
+                    <span className="inline-flex items-center gap-2 hover:translate-x-3 duration-300">
                       Read more <ArrowRight />
                     </span>
                   </button>
@@ -246,4 +155,4 @@ const Explore = () => {
   );
 };
 
-export default Explore;
+export default Explore2;

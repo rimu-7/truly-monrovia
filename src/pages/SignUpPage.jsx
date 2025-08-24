@@ -54,8 +54,8 @@ const SignUpPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#212121] text-white px-4">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full border-2 border-yellow-300 max-w-md">
-        <h2 className="text-2xl font-bold text-yellow-300 mb-6 text-center">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full border-2 border-red-500 max-w-md">
+        <h2 className="text-2xl font-bold text-red-500 mb-6 text-center">
           Create an Account
         </h2>
 
@@ -80,7 +80,7 @@ const SignUpPage = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Full Name"
-              className="w-full px-4 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-300"
+              className="w-full px-4 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-red-500"
               required
             />
           </div>
@@ -96,7 +96,7 @@ const SignUpPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
-              className="w-full px-4 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-300"
+              className="w-full px-4 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-red-500"
               required
             />
           </div>
@@ -112,7 +112,7 @@ const SignUpPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password (min 6 characters)"
-              className="w-full px-4 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-yellow-300"
+              className="w-full px-4 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-red-500"
               minLength="6"
               required
             />
@@ -123,8 +123,8 @@ const SignUpPage = () => {
             disabled={loading}
             className={`w-full font-semibold py-2 px-4 rounded transition-all duration-300 ${
               loading
-                ? "bg-yellow-200 text-gray-700 cursor-not-allowed"
-                : "bg-yellow-300 text-black hover:bg-yellow-400 cursor-pointer"
+                ? "bg-rose-200 text-gray-700 cursor-not-allowed"
+                : "bg-red-500 text-black hover:bg-red-600 cursor-pointer"
             }`}
           >
             {loading ? "Creating Account..." : "Sign Up"}
@@ -133,7 +133,7 @@ const SignUpPage = () => {
 
         <p className="text-sm text-center mt-4">
           Already have an account?{" "}
-          <Link to="/login" className="text-yellow-300 hover:underline">
+          <Link to="/login" className="text-red-500 hover:underline">
             Sign In
           </Link>
         </p>

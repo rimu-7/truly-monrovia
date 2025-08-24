@@ -12,29 +12,31 @@ const Feature = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchFeaturePosts = async () => {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from("feature")
-          .select("*")
-          .order("created_at", { ascending: false });
+useEffect(() => {
+  const fetchFeaturePosts = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("feature")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(6); // ✅ fetch only 6 latest posts
 
-        if (error) throw error;
+      if (error) throw error;
 
-        setFeature(data || []);
-        setFilteredPosts(data || []);
-      } catch (error) {
-        console.error("Error fetching explore posts:", error);
-        toast.error("Failed to load posts.");
-      } finally {
-        setLoading(false);
-      }
-    };
+      setFeature(data || []);
+      setFilteredPosts(data || []);
+    } catch (error) {
+      console.error("Error fetching feature posts:", error);
+      toast.error("Failed to load posts.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchFeaturePosts();
-  }, []);
+  fetchFeaturePosts();
+}, []);
+
 
   useEffect(() => {
     let results = [...feature];
@@ -56,80 +58,30 @@ const Feature = () => {
     navigate(`/postview/${postId}`);
   };
 
-  if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 min-h-screen">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold sm:text-4xl text-gray-300">
-            Feature Posts
-          </h2>
-          <p className="mt-4 text-xl text-gray-500">
-            Discover our latest content
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div
-              key={i}
-              className="border-2 border-gray-700 rounded-lg p-4 animate-pulse space-y-4"
-            >      
-              <div className="h-48 bg-gray-700 rounded-md w-full"></div>
-              <div className="h-4 w-1/3 bg-gray-700 rounded-md"></div>
-              <div className="h-3 w-1/4 bg-gray-700 rounded-md"></div>
-              <div className="h-4 w-3/4 bg-gray-700 rounded-md"></div>
-              <div className="h-3 w-full bg-gray-700 rounded-md"></div>
-              <div className="h-3 w-5/6 bg-gray-700 rounded-md"></div>
-              <div className="h-3 w-2/3 bg-gray-700 rounded-md"></div>
-              <div className="h-10 w-full bg-gray-700 rounded-md mt-4"></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   if (!feature.length) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center">
         <p className="text-gray-600 text-lg">No featured posts available</p>
       </div>
     );
   }
 
   return (
-    <section className="max-w-7xl min-h-screen mx-auto px-4 sm:px-6 lg:px-8 py-36">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold sm:text-4xl">Feature Posts</h2>
-        <p className="mt-4 text-xl text-gray-300">
-          Discover our latest content
-        </p>
+    <section className=" mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className=" mb-8">
+        <h2 className="font-bold text-4xl">Feature Posts</h2>
+        
       </div>
 
-      {/* Search & Filters */}
-      <div className="mb-8 space-y-4 max-w-2xl mx-auto">
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-gray-400" />
-          </div>
-          <input
-            type="text"
-            placeholder="Search posts by title, description, or category..."
-            className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-      </div>
 
       {/* Posts Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredPosts.map((post) => (
           <article
             key={post.id}
-            className="border-2 border-red-500 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
+            className=" shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
           >
-            <div className="relative h-48 overflow-hidden">
+            <div className="relative h-96 overflow-hidden">
               <img
                 src={post.image1}
                 alt={post.title || "Featured post"}
@@ -169,7 +121,7 @@ const Feature = () => {
               <div className="flex mt-2 justify-center items-center">
                 <button
                   onClick={() => handleReadMore(post.id)}
-                  className="w-full bg-white hover:bg-red-500 text-black px-3 py-2 rounded-md transition-transform duration-300 cursor-pointer"
+                  className="w-full bg-gray-100 hover:bg-red-500 text-black px-3 py-2 transition-transform duration-300 cursor-pointer"
                 >
                   <span className="inline-flex items-center justify-center gap-2 duration-300 hover:translate-x-3">
                     Read more <ArrowRight />

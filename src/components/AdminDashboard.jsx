@@ -11,6 +11,7 @@ import ExplorepostByAdmin from "./Explore/ExplorepostByAdmin";
 import Library from "./Library";
 import CategoryBG from "./CategoryBG";
 import BlogUpload from "./TM-Magazine/BlogUpload";
+import AboutGalleryAdmin from "./AboutGalleryAdmin";
 
 const AdminDashboard = () => {
   const [activePanel, setActivePanel] = useState("Home");
@@ -58,6 +59,11 @@ const AdminDashboard = () => {
       content: () => <Library />,
     },
     {
+      key: "AboutGalleryAdmin",
+      label: "About Gallery",
+      content: () => <AboutGalleryAdmin />,
+    },
+    {
       key: "Hero BG",
       label: "Hero BG",
       content: () => <HeroBg />,
@@ -72,18 +78,18 @@ const AdminDashboard = () => {
   const getButtonClass = (key) =>
     `py-2 px-4 rounded flex flex-col w-full mb-2 cursor-pointer ${
       activePanel === key
-        ? "bg-[#FFD700] hover:bg-[#ffc800] text-black"
+        ? "bg-red-500 hover:bg-red-600 text-black"
         : "bg-gray-700 hover:bg-gray-600 text-white"
     }`;
 
   const currentPanel = panelConfig.find((panel) => panel.key === activePanel);
 
   return (
-    <div className="min-h-screen bg-[#212121] text-white flex flex-col lg:flex-row">
+    <div className="min-h-screen  text-white flex flex-col lg:flex-row">
       {/* Topbar with toggle button */}
-      <div className="lg:hidden flex justify-between items-center px-4 py-3 bg-[#333333] border-b border-gray-700">
+      <div className="lg:hidden mt-20 flex justify-between items-center px-4 py-3  border-b border-gray-700">
         <h2 className=" font-semibold ">Admin Panel</h2>
-        <span className="text-[#FFD700]">{activePanel}</span>
+        <span className="text-red-500">{activePanel}</span>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="text-white cursor-pointer focus:outline-none"
@@ -117,10 +123,10 @@ const AdminDashboard = () => {
       <aside
         className={`${
           sidebarOpen ? "block " : "hidden"
-        } lg:block w-full lg:w-64 bg-[#333333] py-36  border-b lg:border-b-0 lg:border-r border-gray-700 p-4 flex flex-col gap-4 z-10`}
+        } lg:block w-full lg:w-64 bg-[#333333] py-36  border-b lg:border-b-0 lg:border-r border-gray-700 p-4 flex flex-col gap-4 z-10 mt-20`}
       >
-        <div className="text-center text-xl font-semibold lg:mb-4">
-          <span className="hidden py-2 px-4 rounded bg-green-500 text-black border-yellow-300 border-2 flex-col w-full mb-2 lg:block">
+        <div className="text-center text-xl  font-semibold lg:mb-4">
+          <span className="hidden py-2 px-4 rounded bg-gray-700  border-red-500 border-2 flex-col w-full mb-2 lg:block">
             Admin Panel
           </span>
         </div>
@@ -139,7 +145,7 @@ const AdminDashboard = () => {
       </aside>
 
       {/* Main Panel */}
-      <main className="flex-1 p-4 sm:p-6">{currentPanel?.content()}</main>
+      <main className="flex-1 p-4 mt-20 sm:p-6">{currentPanel?.content()}</main>
     </div>
   );
 };

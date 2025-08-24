@@ -11,6 +11,7 @@ import {
 import { MdOutlineEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import AboutGallery from "./AboutGaller";
 
 const About = () => {
   const [formData, setFormData] = useState({
@@ -78,48 +79,43 @@ const About = () => {
       <div className=" ">
         <div className=" flex flex-col items-center justify-center  p-8 rounded-lg">
           <div className=" flex flex-col items-center text-center mb-8">
-            <h1 className="text-5xl font-bold text-[#FDD700] mb-4">
+            <h1 className="text-5xl font-bold text-red-500 mb-4">
               Truly Monrovia
             </h1>
             <p className="text-lg text-gray-300 max-w-3xl text-justify">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,
-              labore. Dolorem dolores deserunt eligendi corrupti necessitatibus,
-              maxime eius unde. Aliquam fuga nemo nisi dolores cupiditate quo
-              nesciunt fugiat rem harum numquam excepturi qui unde delectus
-              quaerat eum, quisquam vitae! Sequi? Lorem ipsum dolor, sit amet
-              consectetur adipisicing elit. Repellat asperiores impedit
-              explicabo ab temporibus deserunt nobis dicta vero non aspernatur
-              tempore fugit natus nisi porro ut fuga voluptates, id iure.
+              Truly Monrovia is a creative hub spotlighting Liberia’s talent,
+              culture, and stories. We celebrate and elevate Liberian
+              creatives—artists, musicians, designers, and entrepreneurs—through
+              powerful storytelling, innovative content, and community-driven
+              initiatives. Rooted in Monrovia but built for the world, we are
+              shaping a thriving creative industry and rewriting the narrative
+              of Liberia, one story at a time.
             </p>
           </div>
           <div className="">
             {/* Phone Numbers */}
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <FaPhoneAlt className="text-xl sm:text-2xl text-[#FDD700]" />
-              <a
-                href="tel:+231886120438"
-                className="text-lg hover:text-[#FDD700]"
-              >
-                +1234567890
-              </a>
+              <FaPhoneAlt className="text-xl sm:text-2xl text-red-500" />
               <a
                 href="tel:+231770277646"
-                className="text-lg hover:text-[#FDD700]"
+                className="text-lg hover:text-red-500"
               >
-                +1234567890
+                +23177 8489935
               </a>
               <a
                 href="tel:+231555267036"
-                className="text-lg hover:text-[#FDD700] sm:text-lg"
+                className="text-lg hover:text-red-500 sm:text-lg"
               >
-                +1234567890
+                +231887289983
               </a>
             </div>
 
             {/* Email */}
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center">
-              <MdOutlineEmail className="text-xl sm:text-2xl hover:text-[#FDD700]" />
-              <p className="text-lg hover:text-[#FDD700]">abc123@gmail.com</p>
+              <MdOutlineEmail className="text-xl sm:text-2xl hover:text-red-500" />
+              <p className="text-lg hover:text-red-500">
+                trulymonrovia@gmail.com
+              </p>
             </div>
 
             {/* Social Media Icons */}
@@ -131,7 +127,7 @@ const About = () => {
                 initial="initial"
                 animate="animate"
               >
-                <Link to="https://www.facebook.com">
+                <Link to="https://www.facebook.com/profile.php?id=100051511567413&mibextid=rS40aB7S9Ucbxw6v">
                   <FaFacebook className="text-4xl sm:text-5xl p-3 rounded-full bg-blue-600 hover:bg-blue-700 hover:scale-110" />
                 </Link>
               </motion.div>
@@ -141,8 +137,8 @@ const About = () => {
                 initial="initial"
                 animate="animate"
               >
-                <Link to="https://www.instagram.com">
-                  <FaInstagram className="text-4xl sm:text-5xl p-3 rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 hover:scale-110" />
+                <Link to="https://www.instagram.com/truly_monrovia?igsh=MXdqM3Jpdng3NDZueA==">
+                  <FaInstagram className="text-4xl sm:text-5xl p-3 rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-red-600 hover:scale-110" />
                 </Link>
               </motion.div>
 
@@ -178,8 +174,10 @@ const About = () => {
             </div>
           </div>
         </div>
-        <div className="mt-10 p-6 bg-gray-800 rounded-lg shadow-lg">
-          <h2 className="text-3xl font-bold mb-6 text-center text-[#FDD700]">Contact Us</h2>
+        <div className="mt-10 p-6 bg-gray-900 rounded-lg shadow-lg">
+          <h2 className="text-3xl font-bold mb-6 text-center text-red-500">
+            Contact Us
+          </h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -194,7 +192,7 @@ const About = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 rounded bg-gray-700   focus:ring-2 focus:ring-[#FDD700] focus:outline-none"
+                className="w-full px-4 py-2 rounded bg-gray-800   focus:ring-2 focus:ring-red-500 focus:outline-none"
               />
             </div>
 
@@ -210,7 +208,7 @@ const About = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 rounded bg-gray-700 focus:ring-2 focus:ring-[#FDD700] focus:outline-none"
+                className="w-full px-4 py-2 rounded bg-gray-800 focus:ring-2 focus:ring-red-500 focus:outline-none"
               />
             </div>
 
@@ -229,7 +227,7 @@ const About = () => {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 rounded bg-gray-700 focus:ring-2 focus:ring-[#FDD700] focus:outline-none"
+                className="w-full px-4 py-2 rounded bg-gray-800 focus:ring-2 focus:ring-red-500 focus:outline-none"
               ></textarea>
             </div>
 
@@ -238,8 +236,8 @@ const About = () => {
               disabled={isSubmitting}
               className={`w-full py-3 px-4 rounded-md font-medium text-black cursor-pointer ${
                 isSubmitting
-                  ? "bg-[#FDD700] text-gray-400 cursor-not-allowed"
-                  : "bg-[#FDD700] hover:bg-yellow-400"
+                  ? "bg-red-500 text-gray-400 cursor-not-allowed"
+                  : "bg-red-500 hover:red-600"
               } transition-colors`}
             >
               {isSubmitting ? "Sending..." : "Send Message"}
@@ -247,6 +245,7 @@ const About = () => {
           </form>
         </div>
       </div>
+      <AboutGallery />
     </div>
   );
 };

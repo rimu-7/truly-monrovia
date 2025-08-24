@@ -37,7 +37,7 @@ const MasonryGallery = () => {
   if (!loading && (!images || images.length === 0)) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <p className="text-gray-600 text-lg">No featured posts available</p>
+        <p className="text-gray-300 text-lg">No featured posts available</p>
       </div>
     );
   }
@@ -78,7 +78,7 @@ const MasonryGallery = () => {
                 <img
                   src={img.url}
                   alt={`img-${index}`}
-                  className="w-full rounded-lg shadow-md transition-transform duration-300 group-hover:scale-[1.02] hover:border-2 hover:border-[#FDD700]"
+                  className="w-full rounded-lg shadow-md transition-transform duration-300 group-hover:scale-[1.02] hover:border-2 hover:border-red-500"
                 />
                 <div className="absolute bottom-2 left-2 bg-black/60 text-white text-sm px-2 py-1 rounded">
                   {img.desc}

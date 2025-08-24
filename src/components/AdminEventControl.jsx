@@ -68,7 +68,7 @@ const AdminEventControl = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto bg-gray-800 text-gray-200 rounded-lg shadow-xl">
-      <h1 className="text-3xl font-bold mb-6 text-[#FFD700] text-center">
+      <h1 className="text-3xl font-bold mb-6 text-red-500 text-center">
         Event Control
       </h1>
       {loading ? (
@@ -85,14 +85,14 @@ const AdminEventControl = () => {
               <p className="flex text-lg">
                 <strong>
                   Title: 
-                </strong> <p className="text-[#FFD700]"> {activeEvent.eventTitle}</p>
+                </strong> <p className="text-red-500"> {activeEvent.eventTitle}</p>
               </p>
               <p>
                 <strong>Description:</strong> {activeEvent.eventDescription}
               </p>
             </div>
           ) : (
-            <p className="mb-4 text-3xl text-center text-yellow-500">No active event.</p>
+            <p className="mb-4 text-3xl text-center text-red-500">No active event.</p>
           )}
         </>
       )}
@@ -115,7 +115,7 @@ const AdminEventControl = () => {
         <div className="flex flex-col md:flex-row mx-auto justify-center gap-4">
           <button
             onClick={startEvent}
-            className="w-full md:w-[40%] bg-gradient-to-r from-yellow-300 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-black font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-yellow-400/50 cursor-pointer transition-transform transform hover:scale-105 duration-200"
+            className="w-full md:w-[40%] bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-500 text-black font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-red-600/50 cursor-pointer transition-transform transform hover:scale-105 duration-200"
           >
             Start Event
           </button>
@@ -123,7 +123,7 @@ const AdminEventControl = () => {
           
           <button
             onClick={endEvent}
-            className="w-full md:w-[40%] bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-400 text-black font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-red-500/50 cursor-pointer transition-transform transform hover:scale-105 duration-200"
+            className="w-full md:w-[40%] bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-500 text-black font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-red-500/50 cursor-pointer transition-transform transform hover:scale-105 duration-200"
           >
             End Current Event
           </button>

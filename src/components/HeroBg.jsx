@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { UploadCloud, X } from "lucide-react";
 import { supabase } from "../../supabase/supabase_client";
 import { UserAuth } from "../../supabase/AuthContext";
+import HeroBgList from "./HeroBgLists";
 
 const HeroBg = () => {
   const { session } = UserAuth();
@@ -106,7 +107,7 @@ const HeroBg = () => {
 
   return (
     <div className="min-h-screen bg-[#212121] py-12 flex flex-col items-center px-4">
-      <h1 className="text-4xl font-extrabold text-[#FFD700] mb-8 text-center">
+      <h1 className="text-4xl font-extrabold text-red-500 mb-8 text-center">
         Upload HomePgae Backgraound Image & Description
       </h1>
       <p className="capitalize text-red-600">
@@ -118,7 +119,7 @@ const HeroBg = () => {
         <div className="grid grid-cols-1 gap-4">
           {previews.map((preview, idx) => (
             <div key={idx} className="relative mb-4">
-              <div className="h-80 rounded-xl overflow-hidden border-2 border-[#FFD700] shadow-lg">
+              <div className="h-80 rounded-xl overflow-hidden border-2 border-red-500 shadow-lg">
                 <img
                   src={preview}
                   alt="preview"
@@ -130,7 +131,7 @@ const HeroBg = () => {
                 placeholder="Max 200 characters"
                 value={descriptions[idx]}
                 onChange={(e) => handleDescriptionChange(idx, e.target.value)}
-                className="mt-3 w-full h-32 px-3 py-2 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FFD700] resize-none"
+                className="mt-3 w-full h-32 px-3 py-2 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 resize-none"
               />
 
               <button
@@ -145,8 +146,8 @@ const HeroBg = () => {
         </div>
 
         {/* Upload Input */}
-        <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-[#FFD700] rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700 transition">
-          <UploadCloud className="w-10 h-10 mb-3 text-[#FFD700]" />
+        <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-red-500 rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700 transition">
+          <UploadCloud className="w-10 h-10 mb-3 text-red-500" />
           <p className="mb-1 text-lg text-gray-300">Click or Drag to Upload</p>
           <p className="text-sm text-gray-400">Max 1 image, JPG/PNG</p>
           <input
@@ -168,13 +169,14 @@ const HeroBg = () => {
               ${
                 uploading || images.length === 0
                   ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                  : "bg-[#FFD700] hover:bg-[#e6c200] text-gray-900 hover:scale-105"
+                  : "bg-red-500 hover:bg-red-600 text-gray-900 hover:scale-105"
               }`}
           >
             {uploading ? "Uploading BG Image..." : "Upload BG Image"}
           </button>
         </div>
       </form>
+      <HeroBgList/>
     </div>
   );
 };

@@ -132,7 +132,7 @@ const PostCard = ({ post, handleReadMore }) => {
           <span className="px-3 py-1 bg-gray-600/70 text-white text-xs font-medium rounded-full">
             SPOTLIGHT
           </span>
-          <MdWorkspacePremium className="absolute top-[-12px] right-[-8px] text-3xl text-yellow-400" />
+          <MdWorkspacePremium className="absolute top-[-12px] right-[-8px] text-3xl text-red-500" />
         </div>
         <div>
           <h2 className="text-sm sm:text-base font-semibold text-white mb-1 line-clamp-2">

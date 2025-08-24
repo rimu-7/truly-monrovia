@@ -71,16 +71,16 @@ const EventForm = () => {
     }
   };
   const cssproperty_for_input =
-    "p-3 rounded-md bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-300 ease-in-out text-white";
+    "p-3 rounded-md bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-300 ease-in-out text-white";
 
   return (
     <div className="flex flex-col justify-center mx-auto items-center py-20">
       <div className="">{/* <Events /> */}</div>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-7xl bg-gray-800 text-gray-300 rounded-lg shadow-2xl  p-8 md:p-12 flex flex-col gap-6"
+        className="w-full max-w-7xl bg-gray-900 text-gray-300 rounded-lg shadow-2xl  p-8 md:p-12 flex flex-col gap-6"
       >
-        <h1 className="text-3xl flex items-center justify-center capitalize sm:text-4xl text-yellow-300 font-bold mb-4">
+        <h1 className="text-3xl flex items-center justify-center capitalize sm:text-4xl text-red-500 font-bold mb-4">
           <span className="mr-2">submit your details</span>
           <TbListDetails />
         </h1>
@@ -212,7 +212,7 @@ const EventForm = () => {
 
         {/* Submit Button */}
         <button
-          className="w-full bg-[#FFD700] hover:bg-yellow-400 text-xl   text-black font-semibold px-8 py-3 rounded-md shadow-lg  cursor-pointer transition-transform transform duration-300"
+          className="w-full bg-red-500 hover:bg-red-600 text-xl text-black font-semibold px-8 py-3 rounded-md shadow-lg cursor-pointer transition-transform transform duration-300"
           type="submit"
           disabled={isSubmitting}
         >
